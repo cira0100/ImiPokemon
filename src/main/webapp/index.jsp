@@ -1,6 +1,9 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="models.Monster"%>
+<%@page import="models.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="pokemon.Database"%>
+    <%@page import="database.Database"%>
 <!DOCTYPE html>
 <% %>
 <html>
@@ -11,9 +14,14 @@
 <body>
 <%
 
-Database d=Database.getInstance();
+Database db=Database.getInstance();
 
-out.print(d.getUsername());
+ArrayList<Monster> m=db.getMonsters();
+
+for(Monster mon:m){
+	out.println(mon+"<br>");
+}
+
 
 %>
 
