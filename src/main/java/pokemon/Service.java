@@ -99,6 +99,13 @@ public class Service extends UnicastRemoteObject implements IService  {
 		return newMonster;
 		
 	}
+
+	@Override
+	public void deleteMonster(long id) throws RemoteException {
+		Database db=Database.getInstance();
+		db.deleteMonster(id);
+		
+	}
 	
 
 }

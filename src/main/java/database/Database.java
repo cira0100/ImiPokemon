@@ -278,5 +278,28 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+	public void deleteMonster(long id) {
+		try {
+			conn.setAutoCommit(false);
+			String sql="DELETE FROM ability WHERE monsterId=?";
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setLong(1, id);
+			pre.executeUpdate();
+			 sql="DELETE FROM monster WHERE id=?";
+			 pre = conn.prepareStatement(sql);
+			pre.setLong(1, id);
+			pre.executeUpdate();
+			conn.commit();
+
+		} catch (SQLException  e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
 
 }
