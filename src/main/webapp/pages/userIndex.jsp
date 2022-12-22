@@ -44,24 +44,14 @@ Trenutno izabran pokemon:
 	}
 	else{
 		%>
-		<table>
-			<tr>
-				<th>Ime</th>
-				<th>Opis</th>
-				<th>Hp</th>
-				<th>Slika</th>
-			</tr>
-			<tr>
-				<td><c:out value="${myMonster.name}"/></td>
-				<td><c:out value="${myMonster.description}"/></td>
-				<td><c:out value="${myMonster.hp}"/></td>
-				<td><img style="height: 50px" src="data:image/*;base64, ${myMonster.base64Image }" /></td>
-			</tr>
-		</table>
+		<jsp:include page="pokemonViewModel.jsp">
+			<jsp:param value="${myMonster.id}" name="monsterId"/>
+		</jsp:include>
 		<% 
 	}
 %>
 <br><br><br>
+<h1>Svi pokemoni</h1>
 <table>
 <tr>
 <th>Ime</th>
@@ -93,6 +83,5 @@ Trenutno izabran pokemon:
 </c:forEach>
 
 </table>
-
 </body>
 </html>

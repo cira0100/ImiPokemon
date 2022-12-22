@@ -8,7 +8,7 @@ public class Ability implements Serializable {
 	public String Name;
 	public String description;
 	public AbilityType type;
-	public int power;
+	public float power;
 	
 	
 	public Ability() {
@@ -46,10 +46,10 @@ public class Ability implements Serializable {
 	public void setType(AbilityType type) {
 		this.type = type;
 	}
-	public int getPower() {
+	public float getPower() {
 		return power;
 	}
-	public void setPower(int power) {
+	public void setPower(float power) {
 		this.power = power;
 	}
 	

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 22, 2022 at 01:17 AM
+-- Generation Time: Dec 22, 2022 at 01:40 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.4.9
 
@@ -38,7 +38,25 @@ CREATE TABLE IF NOT EXISTS `ability` (
   `type` int(11) NOT NULL,
   `power` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ability`
+--
+
+INSERT INTO `ability` (`id`, `monsterId`, `name`, `description`, `type`, `power`) VALUES
+(1, 1, 'Thunderbolt', 'Thunderbolt desc', 0, 1000),
+(2, 1, 'Light Ball', 'Light Ball dedasdasdsa dasdas', 1, 2500),
+(3, 1, 'Heal light', 'Heal light fgdsfdsfsd', 2, 500),
+(4, 1, 'Rock', 'Rock Shild', 3, 700),
+(5, 2, 'Fire Spin', 'Fire Spin fdsfsd', 0, 2500),
+(6, 2, 'Fire Blast', 'Fire Blast special desc', 1, 3000),
+(7, 2, 'Earthquake', 'Earthquake heal', 2, 600),
+(8, 2, 'Toxic ', 'Toxic Shield', 3, 1200),
+(9, 3, 'Sleep Powder', 'Sleep Powder descdsa', 0, 1000),
+(10, 3, 'Swords Dance', 'Swords Dance dsadas', 1, 2500),
+(11, 3, 'Leaf Heal', 'Leaf Heal dfsadasdsa', 2, 1000),
+(12, 3, 'Rock Shield', 'Rock Shield dfsadas', 3, 1500);
 
 -- --------------------------------------------------------
 

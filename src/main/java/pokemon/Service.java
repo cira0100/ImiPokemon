@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import database.Database;
 import models.Ability;
 import models.Monster;
+import models.MonsterViewModel;
 import models.User;
 
 public class Service extends UnicastRemoteObject implements IService  {
@@ -56,6 +57,12 @@ public class Service extends UnicastRemoteObject implements IService  {
 		Database db=Database.getInstance();
 		db.addMonsterToUser(id, monsterId);
 		
+	}
+
+	@Override
+	public MonsterViewModel getMonsterViewModel(long id) throws RemoteException {
+		Database db=Database.getInstance();
+		return db.getMonsterViewModel(id);
 	}
 	
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import models.Ability;
 import models.Monster;
+import models.MonsterViewModel;
 import models.User;
 
 public interface IService extends Remote {
@@ -16,5 +17,6 @@ public interface IService extends Remote {
 	public ArrayList<Monster> getMonsters()throws RemoteException;
 	public Monster getUserMonster(String username) throws RemoteException;
 	public void addMonsterToUser(long id,long monsterId)throws RemoteException;
+	public MonsterViewModel getMonsterViewModel(long id)throws RemoteException;
 
 }

@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import models.Ability;
+import models.AbilityType;
 import models.Monster;
 import models.MonsterViewModel;
 import models.User;
@@ -127,7 +128,7 @@ public class Database {
 			ps.setString(2, ability.getName());
 			ps.setString(3, ability.getDescription());
 			ps.setInt(4, ability.getType().ordinal());
-			ps.setInt(5, ability.getPower());
+			ps.setFloat(5, ability.getPower());
 			if(ps.executeUpdate()==1) {
 				result=true;
 			}
@@ -198,6 +199,45 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	public MonsterViewModel getMonsterViewModel(long id) {
+		MonsterViewModel monster=null;
+		
+		String sql="SELECT * FROM monster m JOIN ability a ON m.id=? AND m.id=a.monsterId";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setLong(1, id);
+			ResultSet res=statement.executeQuery();
+			int i=0;
+			while(res.next()) {
+				if(i==0)
+				{
+					monster=new MonsterViewModel();
+					monster.setId(res.getLong("m.id"));
+					monster.setName(res.getString("m.name"));
+					monster.setDescription(res.getString("m.description"));
+					monster.setHp(res.getInt("m.hp"));
+					monster.setBase64Image(res.getString("m.base64Image"));
+					monster.abilities=new ArrayList<Ability>();
+					i++;
+				}
+				Ability a=new Ability();
+				a.setId(res.getLong("a.id"));
+				a.setMonsterId(res.getLong("m.id"));
+				a.setName(res.getString("a.name"));
+				a.setDescription(res.getString("a.description"));
+				a.setType(AbilityType.values()[res.getInt("a.type")]);
+				a.setPower(res.getFloat("a.power"));
+				monster.abilities.add(a);
+				 
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return monster;
 		
 	}
 
