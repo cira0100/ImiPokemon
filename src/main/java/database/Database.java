@@ -240,5 +240,43 @@ public class Database {
 		return monster;
 		
 	}
+	public ArrayList<User> getAllUsers(){
+		ArrayList<User> users=new ArrayList<User>();
+		try {
+			String sql="SELECT * FROM user";
+			Statement statement = conn.createStatement();
+			ResultSet res=statement.executeQuery(sql);
+			while(res.next()) {
+				User tempUser=new User();
+				tempUser=new User();
+				tempUser.setId(res.getLong("id"));
+				tempUser.setAdmin(res.getBoolean("admin"));
+				tempUser.setUsername(res.getString("username"));
+				if(res.getObject("pokemonId")!=null)
+					tempUser.setmonsterId(res.getLong("pokemonId"));
+				else 
+					tempUser.setmonsterId(-1);
+				users.add(tempUser);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return users;
+		
+	}
+	public void deleteUser(long id) {
+		String sql="DELETE FROM user WHERE id=?";
+		try {
+			PreparedStatement preStatement=conn.prepareStatement(sql);
+			preStatement.setLong(1, id);
+			preStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

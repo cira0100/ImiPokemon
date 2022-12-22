@@ -1,13 +1,73 @@
+<%@page import="models.User"%>
+<%@page import="models.Monster"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="models.CONSTS"%>
+<%@page import="java.rmi.Naming"%>
+<%@page import="pokemon.IService"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Admin</title>
+<style>
+	table, th, td {
+	  border: 1px solid black;
+	  border-collapse: collapse;
+	  padding:2px;
+	}
+</style>
 </head>
 <body>
+<h1>Lista korisnika</h1>
+<%
+IService service=(IService)Naming.lookup(CONSTS.rmiUrl);
+ArrayList<User>users=service.getAllUsers();
+request.setAttribute("users", users);
+%>
 
+
+<table>
+<tr>
+<th>Id</th>
+<th>Username</th>
+<th>admin</th>
+<th>pokemonId</th>
+<th></th>
+</tr>
+<c:forEach items="${users}" var="item">
+<tr>
+	<td>
+	<c:out value="${item.id}"/>
+	</td>
+	<td>
+	<c:out value="${item.username}"/>
+	</td>
+	<td>
+	<c:out value="${item.admin}"/>
+	</td>
+	<td>
+	<c:if test="${item.monsterId!=-1}">
+	<c:out value="${item.monsterId}"/>
+	</c:if>
+	</td>
+	<td>
+	<c:if test="${!item.admin}">
+	<a href="deleteUser.jsp?userId=${item.id}">
+	<button>Izbrisi</button>
+	</a>
+	</c:if>
+	</td>
+</tr> 
+</c:forEach>
+
+</table>
+
+
+
+<br><br>
 <h1>Registracija novog admina</h1>
 <form method="post" action="registerAdmin.jsp">
 	<input type="text" name="username"> Korisnicko ime 

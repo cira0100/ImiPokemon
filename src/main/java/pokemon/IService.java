@@ -18,5 +18,7 @@ public interface IService extends Remote {
 	public Monster getUserMonster(String username) throws RemoteException;
 	public void addMonsterToUser(long id,long monsterId)throws RemoteException;
 	public MonsterViewModel getMonsterViewModel(long id)throws RemoteException;
+	public ArrayList<User> getAllUsers()throws RemoteException;
+	public void deleteUser(long id)throws RemoteException;
 
 }

@@ -31,7 +31,7 @@
 				<td><c:out value="${monster.name}"/></td>
 				<td><c:out value="${monster.description}"/></td>
 				<td><c:out value="${monster.hp}"/></td>
-				<td><img style="height: 50px" src="data:image/*;base64, ${monster.base64Image }" /></td>
+				<td><img style="height: 50px" src="data:image/*;base64, ${monster.base64Image}" /></td>
 			</tr>
 </table>
 <table>
