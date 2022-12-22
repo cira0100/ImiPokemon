@@ -7,7 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<%
+boolean isAdmin=(Boolean)session.getAttribute("admin");
+if(!isAdmin){
+	response.sendRedirect("../index.jsp");
+}
+%>
 
 
 <form method="post" action="addNewPokemonHelper.jsp">

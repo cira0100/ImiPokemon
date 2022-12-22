@@ -2,9 +2,12 @@
 <%@page import="java.rmi.Naming"%>
 <%@page import="pokemon.IService"%>
 <%
+boolean isAdmin=(Boolean)session.getAttribute("admin");
+if(isAdmin){
+	response.sendRedirect("../index.jsp");
+}
 
 IService service=(IService)Naming.lookup(CONSTS.rmiUrl);
-out.print(session.getAttribute("id"));
 long userId=(Long)session.getAttribute("id");
 long monsterId=Long.parseLong(request.getParameter("monsterId"));
 

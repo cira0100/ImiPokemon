@@ -21,14 +21,26 @@
 </style>
 </head>
 <body>
+<%
+boolean isAdmin=(Boolean)session.getAttribute("admin");
+if(!isAdmin){
+	response.sendRedirect("../index.jsp");
+}
+%>
 <a href="logout.jsp">
 	<button>Log out</button>
+</a><br><br>
+<a href="addNewPokemon.jsp">
+	<button>DodajNovogPokemona</button>
 </a>
+
 <h1>Lista korisnika</h1>
 <%
 IService service=(IService)Naming.lookup(CONSTS.rmiUrl);
 ArrayList<User>users=service.getAllUsers();
 request.setAttribute("users", users);
+ArrayList<Monster> monsters=service.getMonsters();
+request.setAttribute("monsters", monsters);
 %>
 
 
@@ -93,6 +105,40 @@ request.setAttribute("users", users);
 </form>
 <h1>
 </h1>
+
+
+<h1>Svi pokemoni</h1>
+<table>
+<tr>
+<th>Ime</th>
+<th>Opis</th>
+<th>Hp</th>
+<th>Slika</th>
+<th></th>
+</tr>
+<c:forEach items="${monsters}" var="item">
+<tr>
+	<td>
+	<c:out value="${item.name}"/>
+	</td>
+	<td>
+	<c:out value="${item.description}"/>
+	</td>
+	<td>
+	<c:out value="${item.hp}"/>
+	</td>
+	<td>
+	<img style="height: 50px" src="data:image/*;base64, ${item.base64Image }" />
+	</td>
+	<td>
+	<a href="deletePokemon.jsp?monsterId=${item.id}">
+	<button>Izbrisi</button>
+</a>
+	</td>
+</tr> 
+</c:forEach>
+
+</table>
 
 
 

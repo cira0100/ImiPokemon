@@ -5,7 +5,12 @@
 <jsp:useBean id="user" class="models.User"></jsp:useBean>
 
 <jsp:setProperty property="*" name="user"/>
-
+<%
+boolean isAdmin=(Boolean)session.getAttribute("admin");
+if(!isAdmin){
+	response.sendRedirect("../index.jsp");
+}
+%>
 <%
 	IService service=(IService)Naming.lookup(CONSTS.rmiUrl);
 	user.setAdmin(true);

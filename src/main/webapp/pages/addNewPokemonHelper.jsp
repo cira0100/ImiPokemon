@@ -6,15 +6,12 @@
 <%@page import="models.CONSTS"%>
 <%@page import="java.rmi.Naming"%>
 <%@page import="pokemon.IService"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
+<%
+boolean isAdmin=(Boolean)session.getAttribute("admin");
+if(!isAdmin){
+	response.sendRedirect("../index.jsp");
+}
+%>
 <jsp:useBean id="pokemon" class="models.PokemonAddModel"></jsp:useBean>
 
 <jsp:setProperty property="*" name="pokemon"/>
@@ -42,5 +39,3 @@ response.sendRedirect("adminIndex.jsp");
 
 %>
 
-</body>
-</html>

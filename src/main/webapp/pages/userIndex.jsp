@@ -21,6 +21,12 @@
 </style>
 </head>
 <body>
+<%
+boolean isAdmin=(Boolean)session.getAttribute("admin");
+if(isAdmin){
+	response.sendRedirect("../index.jsp");
+}
+%>
 <a href="logout.jsp">
 	<button>Log out</button>
 </a>
