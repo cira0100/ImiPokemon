@@ -21,6 +21,9 @@
 </style>
 </head>
 <body>
+<a href="logout.jsp">
+	<button>Log out</button>
+</a>
 <h1>Lista korisnika</h1>
 <%
 IService service=(IService)Naming.lookup(CONSTS.rmiUrl);

@@ -8,6 +8,7 @@ import database.Database;
 import models.Ability;
 import models.Monster;
 import models.MonsterViewModel;
+import models.PokemonAddModel;
 import models.User;
 
 public class Service extends UnicastRemoteObject implements IService  {
@@ -75,6 +76,27 @@ public class Service extends UnicastRemoteObject implements IService  {
 	public void deleteUser(long id) throws RemoteException {
 		Database db=Database.getInstance();
 		db.deleteUser(id);
+		
+	}
+	public boolean addPokemonWithAbilities(PokemonAddModel pokemon)throws RemoteException {
+		boolean res=false;
+		Database db=Database.getInstance();
+		long monsterId=db.addMonster(addModelToMonster(pokemon));
+		for(Ability a:pokemon.abilities) {
+			a.monsterId=monsterId;
+			db.addAbility(a);
+		}
+		res=true;
+		return res;
+		
+	}
+	public Monster addModelToMonster(PokemonAddModel pokemon) {
+		Monster newMonster=new Monster();
+		newMonster.setName(pokemon.getName());
+		newMonster.setDescription(pokemon.getDescription());
+		newMonster.setHp(pokemon.getHp());
+		newMonster.setBase64Image(pokemon.getBase64Image());
+		return newMonster;
 		
 	}
 	
