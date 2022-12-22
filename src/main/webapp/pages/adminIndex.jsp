@@ -1,22 +1,15 @@
-<%@page import="java.rmi.Naming"%>
-<%@page import="pokemon.IService"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="models.Monster"%>
-<%@page import="models.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="database.Database"%>
 <!DOCTYPE html>
-<% %>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Login</title>
+<title>Admin</title>
 </head>
 <body>
-<h1>Login</h1>
 
-<form method="post" action="pages/login.jsp">
+<h1>Registracija novog admina</h1>
+<form method="post" action="registerAdmin.jsp">
 	<input type="text" name="username"> Korisnicko ime 
 	<br>
 	<input type="password" name="password">Sifra
@@ -24,7 +17,7 @@
 	<p style="color:red;">
 	<%
 		if(request.getParameter("id")!=null &&request.getParameter("id").equals("-1") )
-			out.print("Pogresan login");
+			out.print("Username vec postoji");
 	%>
 	</p>
 	<p style="color:green;">
@@ -33,15 +26,11 @@
 			out.print("Uspesna registracija");
 	%>
 	</p>
-	<button type="submit">Prijava</button>
+	<button type="submit">Registruj admina</button>
 </form>
+<h1>
+</h1>
 
-<br>
-<a href="pages/registerPage.jsp">
-	<button>Registracija</button>
-</a>
-<br><br>
-<h1>Lista korisnika</h1>
 
 
 

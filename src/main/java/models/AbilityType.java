@@ -1,6 +1,8 @@
 package models;
 
-public enum AbilityType {
+import java.io.Serializable;
+
+public enum AbilityType implements Serializable{
 	ATTACK,
 	SPECIAL,
 	HEAL,

@@ -1,6 +1,8 @@
 package models;
 
-public class Monster {
+import java.io.Serializable;
+
+public class Monster implements Serializable{
 	public long id;
 	public String name;
 	public String description;

@@ -1,11 +1,22 @@
 package models;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
 	public long id;
 	public String username;
 	public String password;
 	public boolean admin;
+	public long monsterId;
 	
+	public long getmonsterId() {
+		return monsterId;
+	}
+
+	public void setmonsterId(long monsterId) {
+		this.monsterId = monsterId;
+	}
+
 	public long getId() {
 		return id;
 	}

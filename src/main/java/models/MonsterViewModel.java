@@ -1,8 +1,9 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MonsterViewModel {
+public class MonsterViewModel implements Serializable{
 	public long id;
 	public String name;
 	public String description;

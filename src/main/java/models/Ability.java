@@ -1,8 +1,10 @@
 package models;
 
-public class Ability {
+import java.io.Serializable;
+
+public class Ability implements Serializable {
 	public long id;
-	public int monsterId;
+	public long monsterId;
 	public String Name;
 	public String description;
 	public AbilityType type;
@@ -20,10 +22,10 @@ public class Ability {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public int getMonsterId() {
+	public long getMonsterId() {
 		return monsterId;
 	}
-	public void setMonsterId(int monsterId) {
+	public void setMonsterId(long monsterId) {
 		this.monsterId = monsterId;
 	}
 	public String getName() {
