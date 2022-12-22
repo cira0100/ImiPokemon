@@ -44,6 +44,19 @@ public class Service extends UnicastRemoteObject implements IService  {
 		Database db=Database.getInstance();
 		return db.getMonsters();
 	}
+
+	@Override
+	public Monster getUserMonster(String username) throws RemoteException {
+		Database db=Database.getInstance();
+		return db.getUserMonster(username);
+	}
+
+	@Override
+	public void addMonsterToUser(long id, long monsterId) throws RemoteException {
+		Database db=Database.getInstance();
+		db.addMonsterToUser(id, monsterId);
+		
+	}
 	
 
 }

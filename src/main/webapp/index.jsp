@@ -40,8 +40,7 @@
 <a href="pages/registerPage.jsp">
 	<button>Registracija</button>
 </a>
-<br><br>
-<h1>Lista korisnika</h1>
+
 
 
 

@@ -159,5 +159,46 @@ public class Database {
 		}
 		return monsters;
 	}
+	public Monster getUserMonster(String username) {
+		Monster monster=null;
+		String sql="SELECT * FROM monster m JOIN user u ON u.username=? AND u.pokemonId=m.id";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, username);
+			ResultSet res=statement.executeQuery();
+			if(res.next()) {
+				 monster=new Monster();
+				 monster.setId(res.getLong("m.id"));
+				 monster.setName(res.getString("m.name"));
+				 monster.setDescription(res.getString("m.description"));
+				 monster.setHp(res.getInt("m.hp"));
+				 monster.setBase64Image(res.getString("m.base64Image"));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return monster;
+		
+	}
+	public void addMonsterToUser(long id,long monsterId) {
+		
+		String sql="UPDATE user set pokemonId=?  where id=?;";
+		
+		try {
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps=conn.prepareStatement(sql);
+			ps.setLong(1,monsterId);
+			ps.setLong(2, id);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }
