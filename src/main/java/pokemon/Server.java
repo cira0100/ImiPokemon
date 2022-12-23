@@ -1,10 +1,7 @@
 package pokemon;
 
-import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-
 import models.CONSTS;
 
 public class Server {
