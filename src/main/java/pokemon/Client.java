@@ -14,10 +14,6 @@ public class Client {
 	public static void main(String[] args) {
 		
 		MainFrame frame=new MainFrame();
-		LoginPanel p=new LoginPanel();
-		frame.add(p,BorderLayout.CENTER);
-		frame.setVisible(true);
-		//SwingUtilities.updateComponentTreeUI(frame);
 		
 	}
 

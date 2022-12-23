@@ -59,7 +59,6 @@ public class LoginPanel extends JPanel {
 				topFrame.getContentPane().removeAll();
 				topFrame.add(new GamePanel(),BorderLayout.CENTER);
 				SwingUtilities.updateComponentTreeUI(topFrame);
-				topFrame.testOut();
 			}
 		});
 		btnLogIn.setBounds(174, 181, 81, 23);
