@@ -8,8 +8,10 @@ import javax.swing.border.EmptyBorder;
 
 import models.CONSTS;
 import models.ComboBoxUser;
+import models.GameStatus;
 import models.User;
 import models.UserListWrapper;
+import pokemon.Game;
 
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -42,14 +44,18 @@ public class MainFrame extends JFrame implements Runnable {
 	public SocketChannel client;
 	public LoginPanel loginPanel=null;
 	public ChooseOpponentPanel chooseOpponentPanel=null;
+	public OpponentConfirmation opponentConfirmation=null;
 	GamePanel gamePanel=null;
 	public long userId=-1;
 	public boolean run=true;
+	public GameStatus status;
+	public Game game;
 	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 727, 429);
 		loginPanel=new LoginPanel();
 		chooseOpponentPanel=new ChooseOpponentPanel();
+		opponentConfirmation=new OpponentConfirmation();
 		gamePanel=new GamePanel();
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		add(loginPanel,BorderLayout.CENTER);
@@ -110,6 +116,20 @@ public class MainFrame extends JFrame implements Runnable {
 				}else if(response[0].trim().equals("BADLOGINADMIN")){
 					System.out.println("Bad Login");
 					this.loginPanel.warningTextArea.setText("Admin nema pristup aplikaciji");
+				}else if(response[0].trim().equals("GAMEREQUEST")){
+					System.out.println("Game Request");
+					this.getContentPane().removeAll();
+					this.opponentConfirmation.getBtnAccept().setVisible(true);
+					this.opponentConfirmation.getBtnRefuse().setVisible(true);
+					this.opponentConfirmation.lblNewLabel.setText("Game Request"+"id:"+response[1].trim());
+					this.opponentConfirmation.setOpponentId(Long.parseLong(response[1].trim()));
+					this.getContentPane().add(this.opponentConfirmation,BorderLayout.CENTER);
+					SwingUtilities.updateComponentTreeUI(this);
+				}else if(response[0].trim().equals("REFUSEGAME")){
+					System.out.println("REFUSEGAME");
+					this.getContentPane().removeAll();
+					this.getContentPane().add(this.chooseOpponentPanel,BorderLayout.CENTER);
+					SwingUtilities.updateComponentTreeUI(this);
 				}else {
 					//XML OBJECTS
 					XMLDecoder decoder = null;
@@ -128,6 +148,16 @@ public class MainFrame extends JFrame implements Runnable {
 				} catch (Exception e) {
 					System.out.println("Nije refresh");
 				}
+					try {
+						game=(Game) decoder.readObject();
+						decoder.close();
+						this.getContentPane().removeAll();
+						this.getContentPane().add(this.gamePanel,BorderLayout.CENTER);
+						SwingUtilities.updateComponentTreeUI(this);
+						
+					} catch (Exception e) {
+						System.out.println("Nije GAME");
+					}
 					
 				}
 				
@@ -181,6 +211,30 @@ public class MainFrame extends JFrame implements Runnable {
 	}
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+	public OpponentConfirmation getOpponentConfirmation() {
+		return opponentConfirmation;
+	}
+	public void setOpponentConfirmation(OpponentConfirmation opponentConfirmation) {
+		this.opponentConfirmation = opponentConfirmation;
+	}
+	public boolean isRun() {
+		return run;
+	}
+	public void setRun(boolean run) {
+		this.run = run;
+	}
+	public GameStatus getStatus() {
+		return status;
+	}
+	public void setStatus(GameStatus status) {
+		this.status = status;
+	}
+	public Game getGame() {
+		return game;
+	}
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 }

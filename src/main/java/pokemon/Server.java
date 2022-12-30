@@ -15,13 +15,14 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import models.CONSTS;
+import models.GameStatus;
 import models.User;
 import models.UserListWrapper;
 
 public class Server implements Runnable {
 	private ServerSocketChannel serverSocketChannel;
 	private Selector selector;
-	private ArrayList<Game> games;
+	private ArrayList<Game> games=new ArrayList<>();
 	HashMap<SocketChannel,Long > players = new HashMap<SocketChannel,Long>();
 	ArrayList<SocketChannel> inGame=new ArrayList<SocketChannel>();
 	IService s;
@@ -138,6 +139,7 @@ public class Server implements Runnable {
 			else {
 				if(!res.admin) {
 					message="ACCEPTED"+":"+res.id;
+					System.out.println(message);
 					players.put(sc,res.id);
 					ByteBuffer buff = ByteBuffer.wrap(message.getBytes());
 					sc.write(buff);
@@ -168,6 +170,90 @@ public class Server implements Runnable {
 			System.out.println(wp.toString());
 			ByteBuffer buff = ByteBuffer.wrap(wp.toString().getBytes());
 			sc.write(buff);
+			
+			
+		}else if(msg[0].equals("SELECTOPPONENT")) {
+			long opponentId=Long.parseLong(msg[1]);
+			SocketChannel opponentSocket=null;
+			for(Entry<SocketChannel, Long> player : players.entrySet()) {
+				if(player.getValue()==opponentId) {
+					opponentSocket=player.getKey();
+					break;
+				}
+			}
+			inGame.add(sc);
+			inGame.add(opponentSocket);
+			sendAvailablePlayers();
+			User player1=s.getUserById(players.get(sc));
+			User player2=s.getUserById(opponentId);
+			System.out.println(player1);
+			Game game=new Game();
+			game.setPlayer1Id(player1.id);
+			game.setPlayer2Id(player2.id);
+			game.player1Turn=true;
+			game.status=GameStatus.WAITING_FOR_SECOND_PLAYER;
+			game.monster1=s.getMonsterViewModel(player1.monsterId);
+			game.monster2=s.getMonsterViewModel(player2.monsterId);
+			game.currentHp1=game.monster1.hp;
+			game.currentHp2=game.monster2.hp;
+			game.shield1=0;
+			game.shield2=0;
+			games.add(game);
+			System.out.println(game);
+			ByteBuffer buff = ByteBuffer.wrap(("GAMEREQUEST:"+player1.id).getBytes());
+			opponentSocket.write(buff);
+			
+			
+		}
+		else if(msg[0].equals("ACCEPTOPPONENT")) {
+			long opponentId=Long.parseLong(msg[1]);
+			SocketChannel opponentSocket=null;
+			for(Entry<SocketChannel, Long> player : players.entrySet()) {
+				if(player.getValue()==opponentId) {
+					opponentSocket=player.getKey();
+					break;
+				}
+			}
+			System.out.println(opponentId);
+			Game game=null;
+			for(Game tempGame :games) {
+				if(tempGame.player1Id==opponentId)
+					game=tempGame;
+				break;
+			}
+			game.status=GameStatus.PLAYING;
+			ByteBuffer buff = ByteBuffer.wrap(game.toString().getBytes());
+			sc.write(buff);
+			buff = ByteBuffer.wrap(game.toString().getBytes());
+			opponentSocket.write(buff);
+			
+			
+		}
+		else if(msg[0].equals("REFUSEOPPONENT")) {
+			long opponentId=Long.parseLong(msg[1]);
+			Game game=null;
+			for(Game tempGame :games) {
+				if(tempGame.player1Id==opponentId)
+					game=tempGame;
+				break;
+			}
+			SocketChannel opponentSocket=null;
+			for(Entry<SocketChannel, Long> player : players.entrySet()) {
+				if(player.getValue()==opponentId) {
+					opponentSocket=player.getKey();
+					break;
+				}
+			}
+			
+			inGame.remove(sc);
+			inGame.remove(opponentSocket);
+			games.remove(game);
+			sendAvailablePlayers();
+			ByteBuffer buff = ByteBuffer.wrap("REFUSEGAME".getBytes());
+			sc.write(buff);
+			ByteBuffer buff1 = ByteBuffer.wrap("REFUSEGAME".getBytes());
+			opponentSocket.write(buff1);
+			
 			
 			
 		}

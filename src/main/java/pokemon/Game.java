@@ -1,24 +1,27 @@
 package pokemon;
 
 
+import java.beans.XMLEncoder;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 
+import models.GameStatus;
 import models.MonsterViewModel;
 
 public class Game implements Runnable, Serializable {
 	
-	boolean player1Turn;
-	long player1Id;
-	long player2Id;
-	MonsterViewModel monster1;
-	MonsterViewModel monster2;
-	int currentHp1;
-	int currentHp2;
-	int shield1;
-	int shield2;
-	SocketChannel []players;
+	public boolean player1Turn;
+	public long player1Id;
+	public long player2Id;
+	public MonsterViewModel monster1;
+	public MonsterViewModel monster2;
+	public int currentHp1;
+	public int currentHp2;
+	public int shield1;
+	public int shield2;
+	GameStatus status;
 	
 	public Game() {
 		super();
@@ -109,5 +112,47 @@ public class Game implements Runnable, Serializable {
 		this.shield2 = shield2;
 	}
 
+	public boolean isPlayer1Turn() {
+		return player1Turn;
+	}
+
+	public void setPlayer1Turn(boolean player1Turn) {
+		this.player1Turn = player1Turn;
+	}
+
+	public GameStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(GameStatus status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString()
+	{
+		XMLEncoder coder = null;
+		String xmlString = null;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		try
+		{
+			coder = new XMLEncoder(baos);
+			coder.writeObject(this);
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		finally
+		{
+			coder.close();
+		}
+		
+		xmlString = new String(baos.toByteArray());
+		
+		return xmlString.replace("\n", " ");
+	}
 
 }

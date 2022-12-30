@@ -35,12 +35,38 @@ public class ChooseOpponentPanel extends JPanel {
 		setLayout(null);
 		
 		btnSendGameRequest = new JButton("Send Game Request");
+		
 		btnSendGameRequest.setBounds(134, 153, 166, 23);
 		add(btnSendGameRequest);
 		
 		comboBox = new JComboBox();
 		comboBox.setBounds(134, 101, 166, 22);
 		add(comboBox);
+		
+		btnSendGameRequest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(comboBox.getItemCount()==0)
+					return;
+				User opponent=((ComboBoxUser)comboBox.getSelectedItem()).getUser();
+				String msg="SELECTOPPONENT:"+opponent.id;
+				ByteBuffer bb=ByteBuffer.wrap(msg.getBytes());
+				MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, ChooseOpponentPanel.this);
+				try {
+					SocketChannel client=topFrame.getClient();
+					client.write(bb);
+					topFrame.getContentPane().removeAll();
+					topFrame.opponentConfirmation.getBtnAccept().setVisible(false);
+					topFrame.opponentConfirmation.getBtnRefuse().setVisible(false);
+					topFrame.opponentConfirmation.setOpponentId(opponent.id);
+					topFrame.opponentConfirmation.lblNewLabel.setText("Wait for opponent");
+					topFrame.getContentPane().add(topFrame.opponentConfirmation,BorderLayout.CENTER);
+					SwingUtilities.updateComponentTreeUI(topFrame);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 
 	}
 
