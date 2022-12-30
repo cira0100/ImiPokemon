@@ -48,31 +48,8 @@ public class ChooseOpponentPanel extends JPanel {
 		MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, ChooseOpponentPanel.this);
 		try {
 			SocketChannel client=topFrame.getClient();
-			ByteBuffer readBuffer=topFrame.getReadBuffer();
 			ByteBuffer buff = ByteBuffer.wrap("REQUESTUSERS".getBytes());
 			client.write(buff);
-			client.configureBlocking(true);
-			readBuffer.clear();
-			StringBuilder sb=new StringBuilder();
-			while(client.read(readBuffer)>0) {
-				System.out.println("uslo");
-				readBuffer.flip();
-				byte[] bytes = new byte[readBuffer.limit()];
-				readBuffer.get(bytes);
-				sb.append(new String(bytes));
-				readBuffer.clear();
-				client.configureBlocking(false);
-			}
-			XMLDecoder decoder = null;
-			decoder = new XMLDecoder(new ByteArrayInputStream(sb.toString().getBytes()));
-			UserListWrapper wp=(UserListWrapper) decoder.readObject();
-			decoder.close();
-			comboBox.removeAllItems();
-			for(User user :wp.getUsers()) {
-				comboBox.addItem(new ComboBoxUser(user));
-				
-			}
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

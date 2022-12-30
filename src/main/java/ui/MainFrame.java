@@ -7,8 +7,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import models.CONSTS;
+import models.ComboBoxUser;
+import models.User;
+import models.UserListWrapper;
 
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.JLabel;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -16,6 +20,8 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.XMLDecoder;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -38,6 +44,7 @@ public class MainFrame extends JFrame implements Runnable {
 	public ChooseOpponentPanel chooseOpponentPanel=null;
 	GamePanel gamePanel=null;
 	public long userId=-1;
+	public boolean run=true;
 	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 727, 429);
@@ -51,16 +58,12 @@ public class MainFrame extends JFrame implements Runnable {
 			@Override
 		    public void windowClosing(WindowEvent e)
 		    {
-		      System.out.println("EXITED");
-		      
 		      try {
-		    	  client.close();
-				Thread.sleep(500);
+		    	  run=false;
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		      System.exit(EXIT_ON_CLOSE);
 		    }
 			
 		});
@@ -74,9 +77,64 @@ public class MainFrame extends JFrame implements Runnable {
 	}
 	@Override
 	public void run() {
-		while(true) {
+		 try{
+			 while(run) {
+				StringBuilder sb=new StringBuilder();
+				client.configureBlocking(true);
+				readBuffer.clear();
+				
+				while(run && client.read(readBuffer)>0) {
+					readBuffer.flip();
+					byte[] bytes = new byte[readBuffer.limit()];
+					readBuffer.get(bytes);
+					sb.append(new String(bytes));
+					readBuffer.clear();
+					client.configureBlocking(false);
+				}
+				if(!run)
+				{
+					client.close();
+					System.exit(EXIT_ON_CLOSE);
+				}
+				String response[]=sb.toString().split(":");
+				if(response[0].trim().equals("ACCEPTED")) {
+					this.setUserId(Long.parseLong(response[1].trim()));
+					this.getContentPane().removeAll();
+					this.getContentPane().add(chooseOpponentPanel,BorderLayout.CENTER);
+					SwingUtilities.updateComponentTreeUI(this);
+					chooseOpponentPanel.getUsers();
+					
+					
+				}else if(response[0].trim().equals("BADLOGIN")){
+					System.out.println("Bad Login");
+					this.loginPanel.warningTextArea.setText("Pogresan Login");
+				}else {
+					XMLDecoder decoder = null;
+					decoder = new XMLDecoder(new ByteArrayInputStream(sb.toString().getBytes()));
+					UserListWrapper wp=(UserListWrapper) decoder.readObject();
+					decoder.close();
+					chooseOpponentPanel.comboBox.removeAllItems();
+					if(wp.getUsers()!=null)
+					for(User user :wp.getUsers()) {
+						if(userId!=user.id)
+							chooseOpponentPanel.comboBox.addItem(new ComboBoxUser(user));
+						
+					}
+				}
+				
 			
+
 		}
+		 } catch (Exception e) {
+				e.printStackTrace();
+			}
+		try {
+			client.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.exit(EXIT_ON_CLOSE);
 		
 	}
 	public SocketChannel getClient() {

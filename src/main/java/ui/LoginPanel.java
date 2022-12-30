@@ -73,6 +73,7 @@ public class LoginPanel extends JPanel {
 	}
 	
 	public void Login() {
+		System.out.println("SEND LOGIN");
 		String username=textFieldUsername.getText();
 		String password=textFieldPassword.getText();
 		if(!(username.trim().length()>0 && password.trim().length()>0))
@@ -85,36 +86,10 @@ public class LoginPanel extends JPanel {
 		MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, LoginPanel.this);
 		try {
 			SocketChannel client=topFrame.getClient();
-			ByteBuffer readBuffer=topFrame.getReadBuffer();
 			client.write(bbLogin);
-			client.configureBlocking(true);
-			readBuffer.clear();
-			StringBuilder sb=new StringBuilder();
-			while(client.read(readBuffer)>0) {
-				readBuffer.flip();
-				byte[] bytes = new byte[readBuffer.limit()];
-				readBuffer.get(bytes);
-				sb.append(new String(bytes));
-				readBuffer.clear();
-				client.configureBlocking(false);
-			}
-			String response[]=sb.toString().split(":");
-			if(response[0].trim().equals("ACCEPTED")) {
-				topFrame.setUserId(Long.parseLong(response[1].trim()));
-				topFrame.getContentPane().removeAll();
-				ChooseOpponentPanel panel=new ChooseOpponentPanel();
-				topFrame.getContentPane().add(panel,BorderLayout.CENTER);
-				SwingUtilities.updateComponentTreeUI(topFrame);
-				panel.getUsers();
-				
-				
-			}else {
-				System.out.println("Bad Login");
-				warningTextArea.setText("Pogresan Login");
-			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 

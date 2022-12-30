@@ -92,13 +92,24 @@ public class Server implements Runnable {
 		SocketChannel sc = (SocketChannel) key.channel();
 		StringBuilder sb = new StringBuilder();
 		int read=0;
-		while(  (read=sc.read(bb)) > 0 ) 
-		{
-			bb.flip();
-			byte[] bytes = new byte[bb.limit()];
-			bb.get(bytes);
-			sb.append(new String(bytes));
-			bb.clear();
+		try {
+			while(  (read=sc.read(bb)) > 0 ) 
+			{
+				bb.flip();
+				byte[] bytes = new byte[bb.limit()];
+				bb.get(bytes);
+				sb.append(new String(bytes));
+				bb.clear();
+			}
+			
+		} catch (Exception e) {
+			Long closedId=players.get(sc);
+			players.remove(sc);
+			System.out.println("Client dissconnected: "+closedId );
+			System.out.println("Remaining clients: "+players.size() );
+			sc.close();
+			sendAvailablePlayers();
+			return;
 		}
 		if(read==-1)
 		{
@@ -107,6 +118,7 @@ public class Server implements Runnable {
 			System.out.println("Client dissconnected: "+closedId );
 			System.out.println("Remaining clients: "+players.size() );
 			sc.close();
+			sendAvailablePlayers();
 			return;
 		}
 		System.out.println(sb.toString());
@@ -128,6 +140,7 @@ public class Server implements Runnable {
 				players.put(sc,res.id);
 				ByteBuffer buff = ByteBuffer.wrap(message.getBytes());
 				sc.write(buff);
+				sendAvailablePlayers();
 				
 			}
 			
@@ -163,11 +176,26 @@ public class Server implements Runnable {
 		
 		bb.clear();
 		sc.register(selector, SelectionKey.OP_READ, address);
-		
-	
-		
-		
-		
+	}
+	public void sendAvailablePlayers() throws Exception{
+		System.out.println("PlayerAddedRemovedOrJoinedGame");
+		for(Entry<SocketChannel, Long> player : players.entrySet()) {
+			SocketChannel sc=player.getKey();
+			UserListWrapper wp=new UserListWrapper();
+			for(Entry<SocketChannel,Long> player1:players.entrySet()) {
+				if(!inGame.contains(player1.getKey())) {
+					User temp=s.getUserById(player1.getValue());
+					if(temp != null)
+						wp.users.add(temp);
+				}
+				
+				
+			}
+			ByteBuffer buff = ByteBuffer.wrap(wp.toString().getBytes());
+			sc.write(buff);
+			
+			
+		}
 		
 	}
 
