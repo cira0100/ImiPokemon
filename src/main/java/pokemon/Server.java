@@ -26,7 +26,7 @@ public class Server implements Runnable {
 	HashMap<SocketChannel,Long > players = new HashMap<SocketChannel,Long>();
 	ArrayList<SocketChannel> inGame=new ArrayList<SocketChannel>();
 	IService s;
-	ByteBuffer bb = ByteBuffer.allocate(1024);
+	ByteBuffer bb = ByteBuffer.allocate(2048);
 
 	public static void main(String[] args) {
 		Server server=new Server();
@@ -249,11 +249,11 @@ public class Server implements Runnable {
 			inGame.remove(sc);
 			inGame.remove(opponentSocket);
 			games.remove(game);
-			sendAvailablePlayers();
 			ByteBuffer buff = ByteBuffer.wrap("REFUSEGAME".getBytes());
 			sc.write(buff);
 			ByteBuffer buff1 = ByteBuffer.wrap("REFUSEGAME".getBytes());
 			opponentSocket.write(buff1);
+			sendAvailablePlayers();
 			
 			
 			
@@ -274,18 +274,16 @@ public class Server implements Runnable {
 	}
 	public void sendAvailablePlayers() throws Exception{
 		System.out.println("PlayerAddedRemovedOrJoinedGame");
+		UserListWrapper wp=new UserListWrapper();
+		for(Entry<SocketChannel,Long> player1:players.entrySet()) {
+			if(!inGame.contains(player1.getKey())) {
+				User temp=s.getUserById(player1.getValue());
+				if(temp != null)
+					wp.users.add(temp);
+			}
+		}
 		for(Entry<SocketChannel, Long> player : players.entrySet()) {
 			SocketChannel sc=player.getKey();
-			UserListWrapper wp=new UserListWrapper();
-			for(Entry<SocketChannel,Long> player1:players.entrySet()) {
-				if(!inGame.contains(player1.getKey())) {
-					User temp=s.getUserById(player1.getValue());
-					if(temp != null)
-						wp.users.add(temp);
-				}
-				
-				
-			}
 			ByteBuffer buff = ByteBuffer.wrap(wp.toString().getBytes());
 			sc.write(buff);
 			

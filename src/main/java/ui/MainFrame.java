@@ -40,7 +40,7 @@ public class MainFrame extends JFrame implements Runnable {
 					MainFrame frame = new MainFrame();
 					frame.setVisible(true);
 	}
-	public ByteBuffer readBuffer=ByteBuffer.allocate(1024);
+	public ByteBuffer readBuffer=ByteBuffer.allocate(2048);
 	public SocketChannel client;
 	public LoginPanel loginPanel=null;
 	public ChooseOpponentPanel chooseOpponentPanel=null;
