@@ -43,16 +43,5 @@ public class ChooseOpponentPanel extends JPanel {
 		add(comboBox);
 
 	}
-	
-	public void getUsers() {
-		MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, ChooseOpponentPanel.this);
-		try {
-			SocketChannel client=topFrame.getClient();
-			ByteBuffer buff = ByteBuffer.wrap("REQUESTUSERS".getBytes());
-			client.write(buff);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
 
 }

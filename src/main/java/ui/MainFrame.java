@@ -102,15 +102,19 @@ public class MainFrame extends JFrame implements Runnable {
 					this.getContentPane().removeAll();
 					this.getContentPane().add(chooseOpponentPanel,BorderLayout.CENTER);
 					SwingUtilities.updateComponentTreeUI(this);
-					chooseOpponentPanel.getUsers();
 					
 					
 				}else if(response[0].trim().equals("BADLOGIN")){
 					System.out.println("Bad Login");
 					this.loginPanel.warningTextArea.setText("Pogresan Login");
+				}else if(response[0].trim().equals("BADLOGINADMIN")){
+					System.out.println("Bad Login");
+					this.loginPanel.warningTextArea.setText("Admin nema pristup aplikaciji");
 				}else {
+					//XML OBJECTS
 					XMLDecoder decoder = null;
 					decoder = new XMLDecoder(new ByteArrayInputStream(sb.toString().getBytes()));
+					try {
 					UserListWrapper wp=(UserListWrapper) decoder.readObject();
 					decoder.close();
 					chooseOpponentPanel.comboBox.removeAllItems();
@@ -120,6 +124,11 @@ public class MainFrame extends JFrame implements Runnable {
 							chooseOpponentPanel.comboBox.addItem(new ComboBoxUser(user));
 						
 					}
+					
+				} catch (Exception e) {
+					System.out.println("Nije refresh");
+				}
+					
 				}
 				
 			

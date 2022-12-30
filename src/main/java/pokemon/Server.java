@@ -136,15 +136,23 @@ public class Server implements Runnable {
 				sc.write(buff);
 			}
 			else {
-				message="ACCEPTED"+":"+res.id;
-				players.put(sc,res.id);
-				ByteBuffer buff = ByteBuffer.wrap(message.getBytes());
-				sc.write(buff);
-				sendAvailablePlayers();
+				if(!res.admin) {
+					message="ACCEPTED"+":"+res.id;
+					players.put(sc,res.id);
+					ByteBuffer buff = ByteBuffer.wrap(message.getBytes());
+					sc.write(buff);
+					sendAvailablePlayers();
+				}
+				else {
+					message="BADLOGINADMIN";
+					ByteBuffer buff = ByteBuffer.wrap(message.getBytes());
+					sc.write(buff);
+					
+				}
 				
 			}
 			
-		}
+		}else
 		if(msg[0].equals("REQUESTUSERS")) {
 			System.out.println("In");
 			UserListWrapper wp=new UserListWrapper();
