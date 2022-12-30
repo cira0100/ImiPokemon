@@ -135,29 +135,29 @@ public class MainFrame extends JFrame implements Runnable {
 					XMLDecoder decoder = null;
 					decoder = new XMLDecoder(new ByteArrayInputStream(sb.toString().getBytes()));
 					try {
-					UserListWrapper wp=(UserListWrapper) decoder.readObject();
-					decoder.close();
-					chooseOpponentPanel.comboBox.removeAllItems();
-					if(wp.getUsers()!=null)
-					for(User user :wp.getUsers()) {
-						if(userId!=user.id)
-							chooseOpponentPanel.comboBox.addItem(new ComboBoxUser(user));
-						
-					}
+						Object o=decoder.readObject();
+						decoder.close();
+						if(o instanceof UserListWrapper) {
+							UserListWrapper wp=(UserListWrapper) o;
+							chooseOpponentPanel.comboBox.removeAllItems();
+							if(wp.getUsers()!=null)
+							for(User user :wp.getUsers()) {
+								if(userId!=user.id)
+									chooseOpponentPanel.comboBox.addItem(new ComboBoxUser(user));
+								
+							}
+						}else if(o instanceof Game) {
+							Game game=(Game) o;
+							decoder.close();
+							this.getContentPane().removeAll();
+							this.getContentPane().add(this.gamePanel,BorderLayout.CENTER);
+							SwingUtilities.updateComponentTreeUI(this);
+							
+						}
 					
 				} catch (Exception e) {
 					System.out.println("Nije refresh");
 				}
-					try {
-						game=(Game) decoder.readObject();
-						decoder.close();
-						this.getContentPane().removeAll();
-						this.getContentPane().add(this.gamePanel,BorderLayout.CENTER);
-						SwingUtilities.updateComponentTreeUI(this);
-						
-					} catch (Exception e) {
-						System.out.println("Nije GAME");
-					}
 					
 				}
 				

@@ -1,6 +1,8 @@
 package models;
 
-public enum GameStatus {
+import java.io.Serializable;
+
+public enum GameStatus implements Serializable {
 	WAITING_FOR_SECOND_PLAYER,
 	PLAYING,
 	FINISHED,

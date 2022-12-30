@@ -223,6 +223,7 @@ public class Server implements Runnable {
 			}
 			game.status=GameStatus.PLAYING;
 			ByteBuffer buff = ByteBuffer.wrap(game.toString().getBytes());
+			System.out.println(game.toString());
 			sc.write(buff);
 			buff = ByteBuffer.wrap(game.toString().getBytes());
 			opponentSocket.write(buff);
