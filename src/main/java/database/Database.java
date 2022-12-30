@@ -301,5 +301,31 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+	public User getUserById(long id){
+		User user=null;
+		try {
+			String sql="SELECT * FROM user WHERE id=?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setLong(1, id);
+			ResultSet res=statement.executeQuery();
+			if(res.next()) {
+				user=new User();
+				user.setId(res.getLong("id"));
+				user.setAdmin(res.getBoolean("admin"));
+				user.setUsername(res.getString("username"));
+				if(res.getObject("pokemonId")!=null)
+					user.setmonsterId(res.getLong("pokemonId"));
+				else 
+					user.setmonsterId(-1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return user;
+		
+	}
 
 }

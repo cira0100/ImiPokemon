@@ -12,15 +12,18 @@ import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import models.CONSTS;
 import models.User;
+import models.UserListWrapper;
 
 public class Server implements Runnable {
 	private ServerSocketChannel serverSocketChannel;
 	private Selector selector;
 	private ArrayList<Game> games;
 	HashMap<SocketChannel,Long > players = new HashMap<SocketChannel,Long>();
+	ArrayList<SocketChannel> inGame=new ArrayList<SocketChannel>();
 	IService s;
 	ByteBuffer bb = ByteBuffer.allocate(1024);
 
@@ -129,6 +132,24 @@ public class Server implements Runnable {
 			}
 			
 		}
+		if(msg[0].equals("REQUESTUSERS")) {
+			System.out.println("In");
+			UserListWrapper wp=new UserListWrapper();
+			for(Entry<SocketChannel,Long> player:players.entrySet()) {
+				if(!inGame.contains(player.getKey())) {
+					User temp=s.getUserById(player.getValue());
+					if(temp != null)
+						wp.users.add(temp);
+				}
+				
+				
+			}
+			System.out.println(wp.toString());
+			ByteBuffer buff = ByteBuffer.wrap(wp.toString().getBytes());
+			sc.write(buff);
+			
+			
+		}
 		
 		
 	}
@@ -141,54 +162,9 @@ public class Server implements Runnable {
 		System.out.println("adress "+address);
 		
 		bb.clear();
-		int read = 0;
-		StringBuilder sb = new StringBuilder();
+		sc.register(selector, SelectionKey.OP_READ, address);
 		
-		sc.configureBlocking(true);
-		
-		while( (read = sc.read(bb)) > 0 ) 
-		{
-			bb.flip();
-			byte[] bytes = new byte[bb.limit()];
-			bb.get(bytes);
-			sb.append(new String(bytes));
-			bb.clear();
-			sc.configureBlocking(false);
-		}
-		
-		String message = sb.toString();
-		
-		System.out.println("message: " + message);
-		
-		String []words = message.split(":");
-		System.out.println(words[0]);
-		if(words[0].trim().equals("LOGIN") == false)
-		{
-			System.out.println("Not Login : ");
-			return;
-		}
-		User newUser=new User();
-		newUser.setUsername(words[1].trim());
-		newUser.setPassword(words[2].trim());
-		
-		User res=s.login(newUser);
-		if(res == null) 
-		{
-			message="BADLOGIN";
-			ByteBuffer buff = ByteBuffer.wrap(message.getBytes());
-			sc.write(buff);
-			sc.register(selector, SelectionKey.OP_READ, address);
-		}
-		else {
-			message="ACCEPTED"+":"+res.id;
-			players.put(sc,res.id);
-			ByteBuffer buff = ByteBuffer.wrap(message.getBytes());
-			sc.write(buff);
-
-			sc.register(selector, SelectionKey.OP_READ, address);
-			
-		}
-		
+	
 		
 		
 		

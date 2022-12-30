@@ -106,6 +106,12 @@ public class Service extends UnicastRemoteObject implements IService  {
 		db.deleteMonster(id);
 		
 	}
+
+	@Override
+	public User getUserById(long id) throws RemoteException {
+		Database db=Database.getInstance();
+		return db.getUserById(id);
+	}
 	
 
 }

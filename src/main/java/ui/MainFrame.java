@@ -75,18 +75,7 @@ public class MainFrame extends JFrame implements Runnable {
 	@Override
 	public void run() {
 		while(true) {
-			try {
-				
-				
-				
-				
-				
-				
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 		}
 		
 	}

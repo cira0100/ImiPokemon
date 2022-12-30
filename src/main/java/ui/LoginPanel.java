@@ -102,8 +102,10 @@ public class LoginPanel extends JPanel {
 			if(response[0].trim().equals("ACCEPTED")) {
 				topFrame.setUserId(Long.parseLong(response[1].trim()));
 				topFrame.getContentPane().removeAll();
-				topFrame.getContentPane().add(new ChooseOpponentPanel(),BorderLayout.CENTER);
+				ChooseOpponentPanel panel=new ChooseOpponentPanel();
+				topFrame.getContentPane().add(panel,BorderLayout.CENTER);
 				SwingUtilities.updateComponentTreeUI(topFrame);
+				panel.getUsers();
 				
 				
 			}else {
