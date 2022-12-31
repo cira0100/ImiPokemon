@@ -152,6 +152,9 @@ public class MainFrame extends JFrame implements Runnable {
 							this.getContentPane().removeAll();
 							this.getContentPane().add(this.gamePanel,BorderLayout.CENTER);
 							SwingUtilities.updateComponentTreeUI(this);
+							this.game=game;
+							this.gamePanel.loadElements();
+							this.gamePanel.txtAreaChat.setText(null);//clear chat between games
 							
 						}
 					
