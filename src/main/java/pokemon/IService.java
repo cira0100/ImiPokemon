@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import models.Ability;
+import models.History;
 import models.Monster;
 import models.MonsterViewModel;
 import models.PokemonAddModel;
@@ -25,5 +26,6 @@ public interface IService extends Remote {
 	public void deleteMonster(long id)throws RemoteException;
 	public User getUserById(long id) throws RemoteException;
 	public int addHistory(Game game) throws Exception;
+	public ArrayList<History> getUserHistory(long id) throws RemoteException;
 
 }

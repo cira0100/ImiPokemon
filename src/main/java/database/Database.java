@@ -14,6 +14,7 @@ import java.util.List;
 import models.Ability;
 import models.AbilityType;
 import models.GameStatus;
+import models.History;
 import models.Monster;
 import models.MonsterViewModel;
 import models.User;
@@ -355,6 +356,30 @@ public class Database {
 			ps.setInt(8, 1);
 		}
 		return ps.executeUpdate();
+	}
+	public ArrayList<History> getUserHistory(long id){
+		ArrayList<History> history=new ArrayList<>();
+		String sql="SELECT * FROM history where player=? ";
+		try {
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setLong(1, id);
+			ResultSet res=ps.executeQuery();
+			while(res.next()) {
+				History h=new History();
+				h.pokemon=getMonsterViewModel(res.getLong("pokemon"));
+				h.time=res.getDate("time");
+				h.result=res.getInt("result");
+				history.add(h);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return history;
+		
 	}
 
 }

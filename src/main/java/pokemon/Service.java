@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import database.Database;
 import models.Ability;
+import models.History;
 import models.Monster;
 import models.MonsterViewModel;
 import models.PokemonAddModel;
@@ -117,6 +118,13 @@ public class Service extends UnicastRemoteObject implements IService  {
 	public int addHistory(Game game) throws Exception {
 		Database db=Database.getInstance();
 		return db.addHistory(game);
+	}
+
+	@Override
+	public ArrayList<History> getUserHistory(long id) throws RemoteException {
+		Database db=Database.getInstance();
+		
+		return db.getUserHistory(id);
 	}
 	
 

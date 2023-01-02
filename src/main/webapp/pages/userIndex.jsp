@@ -89,5 +89,10 @@ Trenutno izabran pokemon:
 </c:forEach>
 
 </table>
+<br><br><br>
+<h1>Istorija</h1>
+<jsp:include page="history.jsp"/>
+
+
 </body>
 </html>
