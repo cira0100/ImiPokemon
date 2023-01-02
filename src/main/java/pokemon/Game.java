@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 
+import models.Ability;
+import models.AbilityType;
 import models.GameStatus;
 import models.MonsterViewModel;
 
@@ -25,6 +27,128 @@ public class Game implements Runnable, Serializable {
 	
 	public Game() {
 		super();
+	}
+	public void player1Move(long abilityId) {
+		Ability a=null;
+		player1Turn=false;
+		double rand=Math.random();
+		for(Ability temp :monster1.abilities) {
+			if(temp.id==abilityId) {
+				a=temp;
+				break;
+			}
+		}
+		int abilityResult=(int)(a.power*rand);
+		if(a.getType()==AbilityType.ATTACK) {
+			if(shield2>0) {
+				if(shield2<abilityResult) {
+					shield2=shield2-abilityResult;
+				}
+				else {
+					currentHp2=currentHp2+shield2-abilityResult;
+					shield2=0;
+				}
+				
+			}else {
+				currentHp2=currentHp2-abilityResult;
+			}
+			
+		}else if(a.getType()==AbilityType.SPECIAL) {
+			abilityResult=(int)(abilityResult*(1+Math.random()/2));
+			if(shield2>0) {
+				if(shield2<abilityResult) {
+					shield2=shield2-abilityResult;
+				}
+				else {
+					currentHp2=currentHp2+shield2-abilityResult;
+					shield2=0;
+				}
+				
+			}else {
+				currentHp2=currentHp2-abilityResult;
+			}
+			
+		}else if(a.getType()==AbilityType.HEAL) {
+			if(currentHp1+abilityResult>=monster1.hp) {
+				currentHp1=monster1.hp;
+			}
+			else {
+				currentHp1=currentHp1+abilityResult;
+			}
+			
+		}else if(a.getType()==AbilityType.SHIELD) {
+			shield1=shield1+abilityResult;
+			
+		}
+		
+	}
+	public void player2Move(long abilityId) {
+		Ability a=null;
+		player1Turn=true;
+		double rand=Math.random();
+		for(Ability temp :monster2.abilities) {
+			if(temp.id==abilityId) {
+				a=temp;
+				break;
+			}
+		}
+		int abilityResult=(int)(a.power*rand);
+		if(a.getType()==AbilityType.ATTACK) {
+			if(shield1>0) {
+				if(shield1<abilityResult) {
+					shield1=shield1-abilityResult;
+				}
+				else {
+					currentHp1=currentHp1+shield1-abilityResult;
+					shield1=0;
+				}
+				
+			}else {
+				currentHp1=currentHp1-abilityResult;
+			}
+			
+		}else if(a.getType()==AbilityType.SPECIAL) {
+			abilityResult=(int)(abilityResult*(1+Math.random()/2));
+			if(shield1>0) {
+				if(shield1<abilityResult) {
+					shield1=shield1-abilityResult;
+				}
+				else {
+					currentHp1=currentHp1+shield1-abilityResult;
+					shield1=0;
+				}
+				
+			}else {
+				currentHp1=currentHp1-abilityResult;
+			}
+			
+		}else if(a.getType()==AbilityType.HEAL) {
+			if(currentHp2+abilityResult>=monster2.hp) {
+				currentHp2=monster2.hp;
+			}
+			else {
+				currentHp2=currentHp2+abilityResult;
+			}
+			
+		}else if(a.getType()==AbilityType.SHIELD) {
+			shield2=shield2+abilityResult;
+			
+		}
+		
+	}
+	public int checkWin() {
+		int res=0;
+		if(currentHp1<=0) {
+			res=1;
+			status=GameStatus.PLAYER2WIN;
+		}
+		else if (currentHp2<=0){
+			res=1;
+			status=GameStatus.PLAYER1WIN;
+		}
+		
+		return res;
+		
 	}
 	
 	@Override

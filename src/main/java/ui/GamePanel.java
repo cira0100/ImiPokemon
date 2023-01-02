@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -22,6 +23,7 @@ import javax.swing.SwingUtilities;
 
 import models.Ability;
 import models.AbilityType;
+import models.GameStatus;
 import models.MonsterViewModel;
 import models.User;
 
@@ -48,6 +50,8 @@ public class GamePanel extends JPanel {
 	public JTextArea txtAreaChat;
 	public long opponentId=-1;
 	public String chat="";
+	public MonsterViewModel yourMonster=null;
+	public MonsterViewModel enemyMonster=null;
 
 	/**
 	 * Create the panel.
@@ -58,6 +62,9 @@ public class GamePanel extends JPanel {
 		btnAttack = new JButton("Attack");
 		btnAttack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				sendMove(AbilityType.ATTACK);
+				
+				
 				
 				
 			}
@@ -68,6 +75,7 @@ public class GamePanel extends JPanel {
 		btnSpecial = new JButton("Special");
 		btnSpecial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				sendMove(AbilityType.SPECIAL);
 				
 				
 			}
@@ -78,6 +86,7 @@ public class GamePanel extends JPanel {
 		btnHeal = new JButton("Heal");
 		btnHeal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				sendMove(AbilityType.HEAL);
 				
 				
 				
@@ -89,6 +98,7 @@ public class GamePanel extends JPanel {
 		btnShield = new JButton("Shield");
 		btnShield.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				sendMove(AbilityType.SHIELD);
 				
 				
 				
@@ -177,8 +187,8 @@ public class GamePanel extends JPanel {
 		MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, GamePanel.this);
 		long you=-1;
 		long enemy=-1;
-		MonsterViewModel yourMonster=null;
-		MonsterViewModel enemyMonster=null;
+		yourMonster=null;
+		enemyMonster=null;
 		int yourHp=0;
 		int enemyHp=0;
 		int yourShield=0;
@@ -186,6 +196,7 @@ public class GamePanel extends JPanel {
 		boolean yourTurn=false;
 		
 		if(topFrame.userId==topFrame.game.player1Id) {
+			
 			you=topFrame.game.player1Id;
 			enemy=topFrame.game.player2Id;
 			opponentId=enemy;
@@ -210,7 +221,34 @@ public class GamePanel extends JPanel {
 				btnShield.setEnabled(false);
 				
 			}
+			lblPokemonNameMe.setText(yourMonster.name);
+			lblPokemonNameEnemy.setText(enemyMonster.name);
+			
+			lblHpMe.setText(yourHp+"("+yourShield+")"+"/"+yourMonster.hp);
+			lblHpEnemy.setText(enemyHp+"("+enemyShield+")"+"/"+enemyMonster.hp);
+			
+			progressBarHpMe.setValue((yourHp/yourMonster.hp)*100);
+			progressBarHpMe.update(progressBarHpMe.getGraphics());
+			progressBarHpEnemy.setValue((enemyHp/enemyMonster.hp)*100);
+			progressBarHpEnemy.update(progressBarHpEnemy.getGraphics());
+			if(topFrame.game.getStatus()==GameStatus.PLAYER1WIN) {
+				JOptionPane.showMessageDialog(null,"YOU WIN","Result"+you,1);
+				btnAttack.setEnabled(false);
+				btnSpecial.setEnabled(false);
+				btnHeal.setEnabled(false);
+				btnShield.setEnabled(false);
+				
+			}else if(topFrame.game.getStatus()==GameStatus.PLAYER2WIN) {
+				JOptionPane.showMessageDialog(null,"YOU LOSE","Result"+you,1);
+				btnAttack.setEnabled(false);
+				btnSpecial.setEnabled(false);
+				btnHeal.setEnabled(false);
+				btnShield.setEnabled(false);
+				
+			}
+			
 		}else if(topFrame.userId==topFrame.game.player2Id) {
+			
 			you=topFrame.game.player2Id;
 			enemy=topFrame.game.player1Id;
 			opponentId=enemy;
@@ -235,6 +273,31 @@ public class GamePanel extends JPanel {
 				btnShield.setEnabled(true);
 				
 			}
+			lblPokemonNameMe.setText(yourMonster.name);
+			lblPokemonNameEnemy.setText(enemyMonster.name);
+			
+			lblHpMe.setText(yourHp+"("+yourShield+")"+"/"+yourMonster.hp);
+			lblHpEnemy.setText(enemyHp+"("+enemyShield+")"+"/"+enemyMonster.hp);
+			
+			progressBarHpMe.setValue((yourHp/yourMonster.hp)*100);
+			progressBarHpMe.update(progressBarHpMe.getGraphics());
+			progressBarHpEnemy.setValue((enemyHp/enemyMonster.hp)*100);
+			progressBarHpEnemy.update(progressBarHpEnemy.getGraphics());
+			if(topFrame.game.getStatus()==GameStatus.PLAYER1WIN) {
+				JOptionPane.showMessageDialog(null,"YOU LOSE","Result"+you,1);
+				btnAttack.setEnabled(false);
+				btnSpecial.setEnabled(false);
+				btnHeal.setEnabled(false);
+				btnShield.setEnabled(false);
+				
+			}else if(topFrame.game.getStatus()==GameStatus.PLAYER2WIN) {
+				JOptionPane.showMessageDialog(null,"YOU WIN","Result:"+you,1);
+				btnAttack.setEnabled(false);
+				btnSpecial.setEnabled(false);
+				btnHeal.setEnabled(false);
+				btnShield.setEnabled(false);
+				
+			}
 		}
 		
 		for(Ability ability:yourMonster.abilities) {
@@ -254,15 +317,6 @@ public class GamePanel extends JPanel {
 		}
 		
 		
-		lblPokemonNameMe.setText(yourMonster.name);
-		lblPokemonNameEnemy.setText(enemyMonster.name);
-		
-		lblHpMe.setText(yourHp+"("+yourShield+")"+"/"+yourMonster.hp);
-		lblHpEnemy.setText(enemyHp+"("+enemyShield+")"+"/"+enemyMonster.hp);
-		
-		progressBarHpMe.setValue((yourHp/yourMonster.hp)*100);
-		progressBarHpEnemy.setValue((enemyHp/enemyMonster.hp)*100);
-		
 		try {
 			Image img=base64toImage(yourMonster.base64Image).getScaledInstance(lblImageMe.getWidth(), lblImageMe.getHeight(), Image.SCALE_SMOOTH);
 			lblImageMe.setIcon(new ImageIcon(img));
@@ -274,10 +328,27 @@ public class GamePanel extends JPanel {
 		} catch (Exception e) {
 
 		}
-		//txtAreaChat.setText(null);
 		
 		
 		
+		
+	}
+	public void sendMove(AbilityType type) {
+		long abilityId=-1;
+		for(Ability a:yourMonster.abilities) {
+			if(a.type==type) {
+				abilityId=a.id;
+				break;
+			}
+		}
+		MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, GamePanel.this);
+		String sendMessage="GAMEPLAY:"+abilityId;
+		ByteBuffer bb=ByteBuffer.wrap(sendMessage.getBytes());
+		try {
+			topFrame.client.write(bb);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

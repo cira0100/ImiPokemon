@@ -217,9 +217,10 @@ public class Server implements Runnable {
 			System.out.println(opponentId);
 			Game game=null;
 			for(Game tempGame :games) {
-				if(tempGame.player1Id==opponentId)
+				if(tempGame.player1Id==opponentId) {
 					game=tempGame;
-				break;
+					break;
+				}
 			}
 			game.status=GameStatus.PLAYING;
 			ByteBuffer buff = ByteBuffer.wrap(game.toString().getBytes());
@@ -285,8 +286,48 @@ public class Server implements Runnable {
 			opponentSocket.write(buff);
 			ByteBuffer buff1 = ByteBuffer.wrap(myMsg.getBytes());
 			sc.write(buff1);
+		}else if(msg[0].equals("GAMEPLAY")) {
+			long myId=players.get(sc);
 			
+			long moveId=Long.parseLong(msg[1]);
 			
+			Game game=null;
+			for(Game tempGame :games) {
+				if(tempGame.player1Id==myId || tempGame.player2Id==myId) {
+					game=tempGame;
+					break;
+				}
+			}
+			long opponentId=-1;
+			
+			if(game.player1Id==myId) {
+				opponentId=game.player2Id;
+				game.player1Move(moveId);
+			}else {
+				opponentId=game.player1Id;
+				game.player2Move(moveId);	
+			}
+			
+			SocketChannel opponentSocket=null;
+			for(Entry<SocketChannel, Long> player : players.entrySet()) {
+				if(player.getValue()==opponentId) {
+					opponentSocket=player.getKey();
+					break;
+				}
+			}
+			int gameRes=game.checkWin();
+			ByteBuffer buff = ByteBuffer.wrap(game.toString().getBytes());
+			opponentSocket.write(buff);
+			ByteBuffer buff1 = ByteBuffer.wrap(game.toString().getBytes());
+			sc.write(buff1);
+			
+			if(gameRes==1) {
+				inGame.remove(sc);
+				inGame.remove(opponentSocket);
+				games.remove(game);
+				System.out.println("GAME FINISHED"+games.size());
+				//add game to database
+			}
 			
 		}
 		
