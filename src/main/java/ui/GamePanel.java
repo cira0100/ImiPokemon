@@ -2,6 +2,7 @@ package ui;
 
 import javax.swing.JPanel;
 
+import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -52,6 +53,7 @@ public class GamePanel extends JPanel {
 	public String chat="";
 	public MonsterViewModel yourMonster=null;
 	public MonsterViewModel enemyMonster=null;
+	public JButton btnBack;
 
 	/**
 	 * Create the panel.
@@ -166,6 +168,21 @@ public class GamePanel extends JPanel {
 		txtAreaChat.setLineWrap(true);
 		txtAreaChat.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Est ultricies integer quis auctor elit sed. Urna nunc id cursus metus aliquam eleifend mi. Amet consectetur adipiscing elit pellentesque habitant morbi tristique senectus. Consequat interdum varius sit amet mattis vulputate enim nulla aliquet. Tristique magna sit amet purus gravida quis blandit. Eget gravida cum sociis natoque penatibus. Nec tincidunt praesent semper feugiat nibh. Maecenas sed enim ut sem. Pulvinar neque laoreet suspendisse interdum consectetur. Diam maecenas ultricies mi eget mauris pharetra. Sollicitudin aliquam ultrices sagittis orci. Nulla facilisi etiam dignissim diam quis.");
 		scrollPane.setViewportView(txtAreaChat);
+		
+		btnBack = new JButton("Return to choose opponent");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnBack.setVisible(false);
+				MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, GamePanel.this);
+				topFrame.getContentPane().removeAll();
+				topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
+				SwingUtilities.updateComponentTreeUI(topFrame);
+				
+			}
+		});
+		btnBack.setBounds(353, 276, 188, 23);
+		btnBack.setVisible(false);
+		add(btnBack);
 
 	}
 	public void sendChat() {
@@ -230,18 +247,34 @@ public class GamePanel extends JPanel {
 			progressBarHpMe.setValue((int)(((yourHp*1.0)/yourMonster.hp)*100));
 			progressBarHpEnemy.setValue((int)(((enemyHp*1.0)/enemyMonster.hp)*100));
 			if(topFrame.game.getStatus()==GameStatus.PLAYER1WIN) {
-				JOptionPane.showMessageDialog(null,"YOU WIN","Result"+you,1);
 				btnAttack.setEnabled(false);
 				btnSpecial.setEnabled(false);
 				btnHeal.setEnabled(false);
 				btnShield.setEnabled(false);
+				int optionres=JOptionPane.showConfirmDialog(null, "YOU WIN \\n\\n Do you want to return to choose opponent page", "Result:"+you, JOptionPane.YES_NO_OPTION);
+				if(optionres==JOptionPane.OK_OPTION) {
+					topFrame.getContentPane().removeAll();
+					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
+					SwingUtilities.updateComponentTreeUI(topFrame);
+					
+				}
+				else
+				 btnBack.setVisible(true);
 				
 			}else if(topFrame.game.getStatus()==GameStatus.PLAYER2WIN) {
-				JOptionPane.showMessageDialog(null,"YOU LOSE","Result"+you,1);
 				btnAttack.setEnabled(false);
 				btnSpecial.setEnabled(false);
 				btnHeal.setEnabled(false);
 				btnShield.setEnabled(false);
+				int optionres=JOptionPane.showConfirmDialog(null, "YOU LOSE \n\n Do you want to return to choose opponent page", "Result"+you, JOptionPane.YES_NO_OPTION);
+				if(optionres==JOptionPane.OK_OPTION) {
+					topFrame.getContentPane().removeAll();
+					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
+					SwingUtilities.updateComponentTreeUI(topFrame);
+					
+				}
+				else
+					btnBack.setVisible(true);
 				
 			}
 			
@@ -279,19 +312,35 @@ public class GamePanel extends JPanel {
 			
 			progressBarHpMe.setValue((int)(((yourHp*1.0)/yourMonster.hp)*100));
 			progressBarHpEnemy.setValue((int)(((enemyHp*1.0)/enemyMonster.hp)*100));
-			if(topFrame.game.getStatus()==GameStatus.PLAYER1WIN) {
-				JOptionPane.showMessageDialog(null,"YOU LOSE","Result"+you,1);
+			if(topFrame.game.getStatus()==GameStatus.PLAYER1WIN) {		
 				btnAttack.setEnabled(false);
 				btnSpecial.setEnabled(false);
 				btnHeal.setEnabled(false);
 				btnShield.setEnabled(false);
+				int optionres=JOptionPane.showConfirmDialog(null, "YOU LOSE \n\n Do you want to return to choose opponent page", "Result"+you, JOptionPane.YES_NO_OPTION);
+				if(optionres==JOptionPane.OK_OPTION) {
+					topFrame.getContentPane().removeAll();
+					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
+					SwingUtilities.updateComponentTreeUI(topFrame);
+					
+				}
+				else
+					btnBack.setVisible(true);
 				
 			}else if(topFrame.game.getStatus()==GameStatus.PLAYER2WIN) {
-				JOptionPane.showMessageDialog(null,"YOU WIN","Result:"+you,1);
 				btnAttack.setEnabled(false);
 				btnSpecial.setEnabled(false);
 				btnHeal.setEnabled(false);
 				btnShield.setEnabled(false);
+				int optionres=JOptionPane.showConfirmDialog(null, "YOU WIN \\n\\n Do you want to return to choose opponent page", "Result:"+you, JOptionPane.YES_NO_OPTION);
+				if(optionres==JOptionPane.OK_OPTION) {
+					topFrame.getContentPane().removeAll();
+					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
+					SwingUtilities.updateComponentTreeUI(topFrame);
+					
+				}
+				else
+					btnBack.setVisible(true);
 				
 			}
 		}

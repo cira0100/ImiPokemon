@@ -326,6 +326,7 @@ public class Server implements Runnable {
 				inGame.remove(opponentSocket);
 				games.remove(game);
 				System.out.println("GAME FINISHED"+games.size());
+				sendAvailablePlayers();
 				//add game to database
 			}
 			
