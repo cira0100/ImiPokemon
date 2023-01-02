@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Base64;
 
 import javax.imageio.ImageIO;
@@ -24,6 +26,8 @@ import models.MonsterViewModel;
 import models.User;
 
 import javax.swing.JTextArea;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GamePanel extends JPanel {
 	public JTextField textFieldChat;
@@ -42,6 +46,8 @@ public class GamePanel extends JPanel {
 	public JButton btnSendText;
 	public JScrollPane scrollPane;
 	public JTextArea txtAreaChat;
+	public long opponentId=-1;
+	public String chat="";
 
 	/**
 	 * Create the panel.
@@ -50,18 +56,44 @@ public class GamePanel extends JPanel {
 		setLayout(null);
 		
 		btnAttack = new JButton("Attack");
+		btnAttack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
 		btnAttack.setBounds(0, 239, 130, 30);
 		add(btnAttack);
 		
 		btnSpecial = new JButton("Special");
+		btnSpecial.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
 		btnSpecial.setBounds(130, 239, 130, 30);
 		add(btnSpecial);
 		
 		btnHeal = new JButton("Heal");
+		btnHeal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
 		btnHeal.setBounds(0, 272, 130, 30);
 		add(btnHeal);
 		
 		btnShield = new JButton("Shield");
+		btnShield.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
 		btnShield.setBounds(130, 272, 130, 30);
 		add(btnShield);
 		
@@ -103,6 +135,13 @@ public class GamePanel extends JPanel {
 		textFieldChat.setColumns(10);
 		
 		btnSendText = new JButton("Send");
+		btnSendText.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sendChat();
+				
+				
+			}
+		});
 		btnSendText.setBounds(585, 266, 89, 23);
 		add(btnSendText);
 		
@@ -119,6 +158,21 @@ public class GamePanel extends JPanel {
 		scrollPane.setViewportView(txtAreaChat);
 
 	}
+	public void sendChat() {
+		String message=textFieldChat.getText();
+		MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, GamePanel.this);
+		String sendMessage="CHATMESSAGE:"+opponentId+":"+message;
+		ByteBuffer bb=ByteBuffer.wrap(sendMessage.getBytes());
+		try {
+			topFrame.client.write(bb);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void refreshChat() {
+		txtAreaChat.setText(chat);
+	}
 	public void loadElements() {
 		MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, GamePanel.this);
 		long you=-1;
@@ -134,6 +188,7 @@ public class GamePanel extends JPanel {
 		if(topFrame.userId==topFrame.game.player1Id) {
 			you=topFrame.game.player1Id;
 			enemy=topFrame.game.player2Id;
+			opponentId=enemy;
 			yourMonster=topFrame.game.monster1;
 			enemyMonster=topFrame.game.monster2;
 			yourHp=topFrame.game.currentHp1;
@@ -142,14 +197,23 @@ public class GamePanel extends JPanel {
 			enemyShield=topFrame.game.shield2;
 			if(topFrame.game.player1Turn) {
 				yourTurn=true;
+				btnAttack.setEnabled(true);
+				btnSpecial.setEnabled(true);
+				btnHeal.setEnabled(true);
+				btnShield.setEnabled(true);
 				
 			}else {
 				yourTurn=false;
+				btnAttack.setEnabled(false);
+				btnSpecial.setEnabled(false);
+				btnHeal.setEnabled(false);
+				btnShield.setEnabled(false);
 				
 			}
 		}else if(topFrame.userId==topFrame.game.player2Id) {
 			you=topFrame.game.player2Id;
 			enemy=topFrame.game.player1Id;
+			opponentId=enemy;
 			yourMonster=topFrame.game.monster2;
 			enemyMonster=topFrame.game.monster1;
 			yourHp=topFrame.game.currentHp2;
@@ -158,9 +222,17 @@ public class GamePanel extends JPanel {
 			enemyShield=topFrame.game.shield1;
 			if(topFrame.game.player1Turn) {
 				yourTurn=false;
+				btnAttack.setEnabled(false);
+				btnSpecial.setEnabled(false);
+				btnHeal.setEnabled(false);
+				btnShield.setEnabled(false);
 				
 			}else {
 				yourTurn=true;
+				btnAttack.setEnabled(true);
+				btnSpecial.setEnabled(true);
+				btnHeal.setEnabled(true);
+				btnShield.setEnabled(true);
 				
 			}
 		}

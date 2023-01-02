@@ -234,9 +234,10 @@ public class Server implements Runnable {
 			long opponentId=Long.parseLong(msg[1]);
 			Game game=null;
 			for(Game tempGame :games) {
-				if(tempGame.player1Id==opponentId)
+				if(tempGame.player1Id==opponentId) {
 					game=tempGame;
-				break;
+					break;
+				}
 			}
 			SocketChannel opponentSocket=null;
 			for(Entry<SocketChannel, Long> player : players.entrySet()) {
@@ -254,6 +255,36 @@ public class Server implements Runnable {
 			ByteBuffer buff1 = ByteBuffer.wrap("REFUSEGAME".getBytes());
 			opponentSocket.write(buff1);
 			sendAvailablePlayers();
+			
+			
+			
+		}
+		else if(msg[0].equals("CHATMESSAGE")) {
+			long myId=players.get(sc);
+			long opponentId=Long.parseLong(msg[1]);
+			User myUser=s.getUserById(myId);
+			User opponentUser=s.getUserById(opponentId);
+			
+			String message=msg[2];
+			Game game=null;
+			for(Game tempGame :games) {
+				if(tempGame.player1Id==opponentId || tempGame.player2Id==opponentId) {
+					game=tempGame;
+					break;
+				}
+			}
+			SocketChannel opponentSocket=null;
+			for(Entry<SocketChannel, Long> player : players.entrySet()) {
+				if(player.getValue()==opponentId) {
+					opponentSocket=player.getKey();
+					break;
+				}
+			}
+			String myMsg="MESSAGE:"+myUser.username+":"+message;
+			ByteBuffer buff = ByteBuffer.wrap(myMsg.getBytes());
+			opponentSocket.write(buff);
+			ByteBuffer buff1 = ByteBuffer.wrap(myMsg.getBytes());
+			sc.write(buff1);
 			
 			
 			

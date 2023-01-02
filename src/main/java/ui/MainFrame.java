@@ -53,6 +53,7 @@ public class MainFrame extends JFrame implements Runnable {
 	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 727, 429);
+		setTitle("IMIPOKEMON 90/2019");
 		loginPanel=new LoginPanel();
 		chooseOpponentPanel=new ChooseOpponentPanel();
 		opponentConfirmation=new OpponentConfirmation();
@@ -130,6 +131,10 @@ public class MainFrame extends JFrame implements Runnable {
 					this.getContentPane().removeAll();
 					this.getContentPane().add(this.chooseOpponentPanel,BorderLayout.CENTER);
 					SwingUtilities.updateComponentTreeUI(this);
+				}else if(response[0].trim().equals("MESSAGE")){
+					String msg=response[1]+":"+response[2]+"\n";
+					this.gamePanel.chat+=msg;
+					this.gamePanel.refreshChat();
 				}else {
 					//XML OBJECTS
 					XMLDecoder decoder = null;
@@ -155,6 +160,7 @@ public class MainFrame extends JFrame implements Runnable {
 							this.game=game;
 							this.gamePanel.loadElements();
 							this.gamePanel.txtAreaChat.setText(null);//clear chat between games
+							this.gamePanel.chat="";
 							
 						}
 					
