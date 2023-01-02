@@ -227,10 +227,8 @@ public class GamePanel extends JPanel {
 			lblHpMe.setText(yourHp+"("+yourShield+")"+"/"+yourMonster.hp);
 			lblHpEnemy.setText(enemyHp+"("+enemyShield+")"+"/"+enemyMonster.hp);
 			
-			progressBarHpMe.setValue((yourHp/yourMonster.hp)*100);
-			progressBarHpMe.update(progressBarHpMe.getGraphics());
-			progressBarHpEnemy.setValue((enemyHp/enemyMonster.hp)*100);
-			progressBarHpEnemy.update(progressBarHpEnemy.getGraphics());
+			progressBarHpMe.setValue((int)(((yourHp*1.0)/yourMonster.hp)*100));
+			progressBarHpEnemy.setValue((int)(((enemyHp*1.0)/enemyMonster.hp)*100));
 			if(topFrame.game.getStatus()==GameStatus.PLAYER1WIN) {
 				JOptionPane.showMessageDialog(null,"YOU WIN","Result"+you,1);
 				btnAttack.setEnabled(false);
@@ -279,10 +277,8 @@ public class GamePanel extends JPanel {
 			lblHpMe.setText(yourHp+"("+yourShield+")"+"/"+yourMonster.hp);
 			lblHpEnemy.setText(enemyHp+"("+enemyShield+")"+"/"+enemyMonster.hp);
 			
-			progressBarHpMe.setValue((yourHp/yourMonster.hp)*100);
-			progressBarHpMe.update(progressBarHpMe.getGraphics());
-			progressBarHpEnemy.setValue((enemyHp/enemyMonster.hp)*100);
-			progressBarHpEnemy.update(progressBarHpEnemy.getGraphics());
+			progressBarHpMe.setValue((int)(((yourHp*1.0)/yourMonster.hp)*100));
+			progressBarHpEnemy.setValue((int)(((enemyHp*1.0)/enemyMonster.hp)*100));
 			if(topFrame.game.getStatus()==GameStatus.PLAYER1WIN) {
 				JOptionPane.showMessageDialog(null,"YOU LOSE","Result"+you,1);
 				btnAttack.setEnabled(false);
