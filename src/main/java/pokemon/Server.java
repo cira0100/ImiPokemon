@@ -327,7 +327,7 @@ public class Server implements Runnable {
 				games.remove(game);
 				System.out.println("GAME FINISHED"+games.size());
 				sendAvailablePlayers();
-				//add game to database
+				s.addHistory(game);
 			}
 			
 		}

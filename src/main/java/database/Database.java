@@ -1,19 +1,23 @@
 package database;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
 import models.Ability;
 import models.AbilityType;
+import models.GameStatus;
 import models.Monster;
 import models.MonsterViewModel;
 import models.User;
+import pokemon.Game;
 
 public class Database {
 	private Connection conn;
@@ -326,6 +330,31 @@ public class Database {
 		
 		return user;
 		
+	}
+	public int addHistory(Game game) throws Exception{
+		Date date=new Date(Calendar.getInstance().getTimeInMillis());
+		String sql="INSERT INTO history(player,pokemon,time,result) values(?,?,?,?),(?,?,?,?)";
+		PreparedStatement ps=conn.prepareStatement(sql);
+		if(game.getStatus()==GameStatus.PLAYER1WIN) {
+			ps.setLong(1, game.player1Id);
+			ps.setLong(2, game.monster1.id);
+			ps.setDate(3, date);
+			ps.setInt(4, 1);
+			ps.setLong(5, game.player2Id);
+			ps.setLong(6, game.monster2.id);
+			ps.setDate(7, date);
+			ps.setInt(8, 0);
+		}else if(game.getStatus()==GameStatus.PLAYER2WIN) {
+			ps.setLong(1, game.player1Id);
+			ps.setLong(2, game.monster1.id);
+			ps.setDate(3, date);
+			ps.setInt(4, 0);
+			ps.setLong(5, game.player2Id);
+			ps.setLong(6, game.monster2.id);
+			ps.setDate(7, date);
+			ps.setInt(8, 1);
+		}
+		return ps.executeUpdate();
 	}
 
 }

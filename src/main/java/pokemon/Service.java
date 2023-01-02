@@ -112,6 +112,12 @@ public class Service extends UnicastRemoteObject implements IService  {
 		Database db=Database.getInstance();
 		return db.getUserById(id);
 	}
+
+	@Override
+	public int addHistory(Game game) throws Exception {
+		Database db=Database.getInstance();
+		return db.addHistory(game);
+	}
 	
 
 }

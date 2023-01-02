@@ -24,5 +24,6 @@ public interface IService extends Remote {
 	public boolean addPokemonWithAbilities(PokemonAddModel pokemon)throws RemoteException;
 	public void deleteMonster(long id)throws RemoteException;
 	public User getUserById(long id) throws RemoteException;
+	public int addHistory(Game game) throws Exception;
 
 }
