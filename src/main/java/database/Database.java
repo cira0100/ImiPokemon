@@ -85,6 +85,7 @@ public class Database {
 					tempUser.setId(res.getInt("id"));
 					tempUser.setAdmin(res.getBoolean("admin"));
 					tempUser.setUsername(user.getUsername());
+					tempUser.setmonsterId(res.getLong("pokemonId"));
 				}
 			}
 		} catch (SQLException e) {
@@ -290,10 +291,15 @@ public class Database {
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setLong(1, id);
 			pre.executeUpdate();
-			 sql="DELETE FROM monster WHERE id=?";
-			 pre = conn.prepareStatement(sql);
+			sql="DELETE FROM monster WHERE id=?";
+			pre = conn.prepareStatement(sql);
 			pre.setLong(1, id);
 			pre.executeUpdate();
+			sql="UPDATE user set pokemonId=null WHERE pokemonId=?";
+			pre = conn.prepareStatement(sql);
+			pre.setLong(1, id);
+			pre.executeUpdate();
+			
 			conn.commit();
 
 		} catch (SQLException  e) {

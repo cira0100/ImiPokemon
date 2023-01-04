@@ -172,8 +172,9 @@ public class Server implements Runnable {
 			newUser.setPassword(msg[2].trim());
 			String message;
 			User res=s.login(newUser);
-			if(res == null) 
+			if(res == null ||res.monsterId==0) 
 			{
+				//ukoliko pogresan login ili nema izabranog pokemona
 				message="BADLOGIN";
 				ByteBuffer buff = ByteBuffer.wrap(message.getBytes());
 				sc.write(buff);
