@@ -27,6 +27,7 @@ import models.AbilityType;
 import models.GameStatus;
 import models.MonsterViewModel;
 import models.User;
+import pokemon.RegexHelper;
 
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
@@ -187,6 +188,10 @@ public class GamePanel extends JPanel {
 	}
 	public void sendChat() {
 		String message=textFieldChat.getText();
+		if(!RegexHelper.checkChatInput(message)) {
+			return;
+			
+		}
 		MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, GamePanel.this);
 		String sendMessage="CHATMESSAGE:"+opponentId+":"+message;
 		ByteBuffer bb=ByteBuffer.wrap(sendMessage.getBytes());

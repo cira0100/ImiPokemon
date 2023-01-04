@@ -4,6 +4,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+
+import pokemon.RegexHelper;
+
 import javax.swing.JTextArea;
 import java.awt.SystemColor;
 import java.awt.Font;
@@ -79,6 +82,14 @@ public class LoginPanel extends JPanel {
 		if(!(username.trim().length()>0 && password.trim().length()>0))
 		{
 			warningTextArea.setText("Morate uneti login informacije");
+			return;
+		}
+		if(!RegexHelper.checkAlphaNumericInput(username)) {
+			warningTextArea.setText("Username mora sadrzati alfanumericke karaktere");
+			return;
+		}
+		if(!RegexHelper.checkAlphaNumericInput(password)) {
+			warningTextArea.setText("Password mora sadrzati alfanumericke karaktere");
 			return;
 		}
 		String loginMsg="LOGIN:"+username+":"+password;

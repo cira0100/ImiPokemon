@@ -17,9 +17,9 @@
 <h1>Login</h1>
 
 <form method="post" action="pages/login.jsp">
-	<input type="text" name="username"> Korisnicko ime 
+	<input type="text" name="username" required> Korisnicko ime 
 	<br>
-	<input type="password" name="password">Sifra
+	<input type="password" name="password" required>Sifra
 	<br>
 	<p style="color:red;">
 	<%

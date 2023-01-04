@@ -29,7 +29,7 @@ for (int i = 0; i < 4; i++) {
 		tempA.setDescription(desc.get(i));
 		int tempType=Integer.parseInt(type.get(i));
 		tempA.setType(AbilityType.values()[tempType]);
-		int tempPower=Integer.parseInt(power.get(i));
+		float tempPower=Float.valueOf(power.get(i));
 		tempA.setPower(tempPower);
 		pokemon.abilities.add(tempA);	
 	}
