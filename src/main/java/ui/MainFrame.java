@@ -135,6 +135,11 @@ public class MainFrame extends JFrame implements Runnable {
 					String msg=response[1]+":"+response[2]+"\n";
 					this.gamePanel.chat+=msg;
 					this.gamePanel.refreshChat();
+				}else if(response[0].trim().equals("OPPONENTLEFT")){
+					System.out.println("OPPONENTLEFT");
+					this.getContentPane().removeAll();
+					this.getContentPane().add(this.chooseOpponentPanel,BorderLayout.CENTER);
+					SwingUtilities.updateComponentTreeUI(this);
 				}else {
 					//XML OBJECTS
 					XMLDecoder decoder = null;

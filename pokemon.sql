@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2023 at 04:34 PM
+-- Generation Time: Jan 04, 2023 at 05:48 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -80,7 +80,23 @@ INSERT INTO `history` (`id`, `player`, `pokemon`, `time`, `result`) VALUES
 (3, 5, 2, '2023-01-02', 0),
 (4, 2, 1, '2023-01-02', 1),
 (5, 2, 1, '2023-01-02', 1),
-(6, 4, 3, '2023-01-02', 0);
+(6, 4, 3, '2023-01-02', 0),
+(7, 5, 2, '2023-01-02', 0),
+(8, 2, 1, '2023-01-02', 1),
+(9, 7, 3, '2023-01-02', 0),
+(10, 5, 2, '2023-01-02', 1),
+(11, 2, 1, '2023-01-02', 1),
+(12, 7, 3, '2023-01-02', 0),
+(13, 5, 2, '2023-01-04', 1),
+(14, 2, 1, '2023-01-04', 0),
+(15, 2, 1, '2023-01-04', 0),
+(16, 5, 2, '2023-01-04', 1),
+(17, 7, 3, '2023-01-04', 1),
+(18, 4, 3, '2023-01-04', 0),
+(19, 12, 1, '2023-01-04', 1),
+(20, 4, 3, '2023-01-04', 0),
+(21, 12, 1, '2023-01-04', 0),
+(22, 4, 3, '2023-01-04', 1);
 
 -- --------------------------------------------------------
 
@@ -128,7 +144,10 @@ INSERT INTO `user` (`id`, `username`, `password`, `admin`, `pokemonId`) VALUES
 (2, 'cirakg1', '$2a$10$TJHJfYbgZO97r0CJi2eKpeEhOW8wKEO5BGXQBpR33js3R5rM98Y3W', 0, 1),
 (4, 'cirakg2', '$2a$10$LQsWtrn7OqrNU8wSSfg/6uo47lzQqw27T3ubUDRqFQVZhI6F0uBli', 0, 3),
 (5, 'cirakg5', '$2a$10$cO0oAPi5O4hoVQWTHuw0fOXXBYLqwJ2V5qrHy32ZjpmR9fTpNBGHy', 0, 2),
-(6, 'cirakg10', '$2a$10$IiK5l7wFvi/KPliiCpNMCOAuehXvJFofN6ARotiSN.5FuRpjke32G', 0, NULL);
+(6, 'cirakg10', '$2a$10$IiK5l7wFvi/KPliiCpNMCOAuehXvJFofN6ARotiSN.5FuRpjke32G', 0, NULL),
+(7, 'cirakg3', '$2a$10$AA9ttGxJSoikQk2CBIcCnufCiy0SlLfBB5FsNmW3PWcgVKDW9wbk6', 0, 3),
+(9, 'cirakg6', '$2a$10$V.d8RxW.scb/q3B2bGTt/e1guq1RMCZTF840eKe559KkiuC9fxmFC', 0, 3),
+(12, 'cirakg4', '$2a$10$GPbmdub8HTtTCXOnVPB8au8lAcI1jxVO1eTCDg.io32Zxsd0R/jkG', 0, 1);
 
 --
 -- Indexes for dumped tables
@@ -166,25 +185,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `ability`
 --
 ALTER TABLE `ability`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `monster`
 --
 ALTER TABLE `monster`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

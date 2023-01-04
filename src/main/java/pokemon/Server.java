@@ -89,6 +89,46 @@ public class Server implements Runnable {
 		}
 		
 	}
+	private void leftGame(SocketChannel sc)throws Exception {
+		long id=players.get(sc);
+		Game game=null;
+		for(Game tempGame :games) {
+			if(tempGame.player1Id==id || tempGame.player2Id==id) {
+				game=tempGame;
+				break;
+			}
+		}
+		if(game==null)
+			return;
+		long notifyId=-1;
+		if(game.player1Id==id)
+			notifyId=game.player2Id;
+		else if(game.player2Id==id)
+			notifyId=game.player1Id;
+		
+		if(notifyId==-1)
+			return;
+		
+		SocketChannel notifySocket=null;
+		for(Entry<SocketChannel, Long> player : players.entrySet()) {
+			if(player.getValue()==notifyId) {
+				notifySocket=player.getKey();
+				break;
+			}
+		}
+		if(notifySocket==null)
+			return;
+		
+		inGame.remove(sc);
+		inGame.remove(notifySocket);
+		games.remove(game);
+		ByteBuffer buff = ByteBuffer.wrap("OPPONENTLEFT".getBytes());
+		notifySocket.write(buff);
+		
+		
+		
+		
+	}
 	private void readMessage(SelectionKey key)throws Exception {
 		SocketChannel sc = (SocketChannel) key.channel();
 		StringBuilder sb = new StringBuilder();
@@ -105,6 +145,7 @@ public class Server implements Runnable {
 			
 		} catch (Exception e) {
 			Long closedId=players.get(sc);
+			leftGame(sc);
 			players.remove(sc);
 			System.out.println("Client dissconnected: "+closedId );
 			System.out.println("Remaining clients: "+players.size() );
@@ -115,6 +156,7 @@ public class Server implements Runnable {
 		if(read==-1)
 		{
 			Long closedId=players.get(sc);
+			leftGame(sc);
 			players.remove(sc);
 			System.out.println("Client dissconnected: "+closedId );
 			System.out.println("Remaining clients: "+players.size() );
