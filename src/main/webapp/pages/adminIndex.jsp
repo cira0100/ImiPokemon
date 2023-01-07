@@ -18,6 +18,28 @@
 	  border-collapse: collapse;
 	  padding:2px;
 	}
+	.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 300px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+h1{
+	display:inline
+}
 </style>
 </head>
 <body>
@@ -33,8 +55,12 @@ if(!isAdmin){
 <a href="addNewPokemon.jsp">
 	<button>DodajNovogPokemona</button>
 </a>
+<br>
 
-<h1>Lista korisnika</h1>
+<h1>Lista korisnika</h1><div class="tooltip" style="display:inline">(?)
+  <span class="tooltiptext">Lista korisnika u bazi. Admin moze da izbrise korisnike koji nisu admin-i.
+  </span>
+</div>
 <%
 IService service=(IService)Naming.lookup(CONSTS.rmiUrl);
 ArrayList<User>users=service.getAllUsers();
@@ -42,8 +68,6 @@ request.setAttribute("users", users);
 ArrayList<Monster> monsters=service.getMonsters();
 request.setAttribute("monsters", monsters);
 %>
-
-
 <table>
 <tr>
 <th>Id</th>
@@ -79,11 +103,16 @@ request.setAttribute("monsters", monsters);
 </c:forEach>
 
 </table>
+<br>
+
 
 
 
 <br><br>
-<h1>Registracija novog admina</h1>
+<h1>Registracija novog admina</h1><div class="tooltip">(?)
+  <span class="tooltiptext">Korisnicko ime i sifra moraju da budu alfanumericki string i polja ne smeju biti prazna. Dobija poruku da li je registracija uspesna.
+  </span>
+</div>
 <form method="post" action="registerAdmin.jsp">
 	<input type="text" name="username" pattern="^[A-Za-z0-9]{1,}$" required> Korisnicko ime 
 	<br>
@@ -107,11 +136,17 @@ request.setAttribute("monsters", monsters);
 	</p>
 	<button type="submit">Registruj admina</button>
 </form>
+<br>
+
 <h1>
 </h1>
 
 
-<h1>Svi pokemoni</h1>
+<h1>Svi pokemoni</h1><div class="tooltip">(?)
+  <span class="tooltiptext">Svi pokemoni registrovani u bazi. Ima mogucnost da ih obrise.
+  </span>
+</div>
+<br>
 <table>
 <tr>
 <th>Ime</th>
@@ -143,6 +178,8 @@ request.setAttribute("monsters", monsters);
 </c:forEach>
 
 </table>
+<br>
+
 
 
 

@@ -21,12 +21,22 @@
 
 %>
 <table>
+<tr>
+	<th>Ime
+	</th>
+	<th>Slika
+	</th>
+	<th>Datun
+	</th>
+	<th>Rezultat
+	</th>
+</tr>
 <c:forEach items="${history}" var="item">
 			<tr bgcolor="${item.result  eq 1 ? 'LawnGreen': 'IndianRed'}">
 				<td><c:out value="${item.pokemon.name}"/></td>
 				<td><img style="height: 50px" src="data:image/*;base64, ${item.pokemon.base64Image}" /></td>
 				<td><c:out value="${item.time}"/></td>
-				<td><c:out value="${item.result  eq 1 ? 'Victory': 'Defeat'}"/></td>
+				<td><c:out value="${item.result  eq 1 ? 'Pobeda': 'Poraz'}"/></td>
 			</tr>
 			</c:forEach>
 </table>

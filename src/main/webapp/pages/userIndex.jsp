@@ -18,6 +18,28 @@
 	  border-collapse: collapse;
 	  padding:2px;
 	}
+	.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 300px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+h1{
+	display:inline;
+}
 </style>
 </head>
 <body>
@@ -30,7 +52,11 @@ if(isAdmin){
 <a href="logout.jsp">
 	<button>Log out</button>
 </a>
-<h1>Izaberi pokemona</h1>
+<br>
+<h1>Izaberi pokemona</h1><div class="tooltip">(?)
+  <span class="tooltiptext">Korisnik da bi se uopste ulogovan i koristio desktop aplikaciju mora da ima izabranog pokemona!!!
+  Prikazan izabran poken sa svim podacima o njemu</span>
+</div>
 <br>
 <%
 	IService service=(IService)Naming.lookup(CONSTS.rmiUrl);
@@ -56,8 +82,11 @@ Trenutno izabran pokemon:
 		<% 
 	}
 %>
-<br><br><br>
-<h1>Svi pokemoni</h1>
+<br><br>
+<h1>Svi pokemoni</h1><div class="tooltip">(?)
+  <span class="tooltiptext">Lista svih dostupnih pokemona odakle korisnik moze da izabere pokemona koga ce koristiti.</span>
+</div>
+<br>
 <table>
 <tr>
 <th>Ime</th>
@@ -89,8 +118,12 @@ Trenutno izabran pokemon:
 </c:forEach>
 
 </table>
-<br><br><br>
-<h1>Istorija</h1>
+<br><br>
+<h1>Istorija</h1><div class="tooltip">(?)
+  <span class="tooltiptext">Pregled istorije meceva korisnika. Prikaz imena i slike koriscenog pokemona, datum i rezultat meca.</span>
+</div>
+<br>
+<br>
 <jsp:include page="history.jsp"/>
 
 
