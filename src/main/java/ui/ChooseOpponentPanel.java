@@ -43,6 +43,11 @@ public class ChooseOpponentPanel extends JPanel {
 		comboBox.setBounds(134, 101, 166, 22);
 		add(comboBox);
 		
+		JLabel lblToolTip = new JLabel("(?)");
+		lblToolTip.setBounds(330, 105, 27, 14);
+		lblToolTip.setToolTipText("<html>Izbor protivnika. Lista se refreshuje svaki put kada se korisnik prijavi na sistem,<br> zapocne nova igra, zavrsi igra, igrac izadje iz igrice.</html>");
+		add(lblToolTip);
+		
 		btnSendGameRequest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(comboBox.getItemCount()==0)

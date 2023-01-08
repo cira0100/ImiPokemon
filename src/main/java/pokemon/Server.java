@@ -90,6 +90,8 @@ public class Server implements Runnable {
 		
 	}
 	private void leftGame(SocketChannel sc)throws Exception {
+		if(!players.containsKey(sc))
+			return;
 		long id=players.get(sc);
 		Game game=null;
 		for(Game tempGame :games) {

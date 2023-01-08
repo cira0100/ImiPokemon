@@ -55,6 +55,7 @@ public class GamePanel extends JPanel {
 	public MonsterViewModel yourMonster=null;
 	public MonsterViewModel enemyMonster=null;
 	public JButton btnBack;
+	private JLabel lblToolTip;
 
 	/**
 	 * Create the panel.
@@ -184,6 +185,12 @@ public class GamePanel extends JPanel {
 		btnBack.setBounds(353, 276, 188, 23);
 		btnBack.setVisible(false);
 		add(btnBack);
+		
+		lblToolTip = new JLabel("(?)");
+		lblToolTip.setBounds(180, 105, 23, 14);
+		lblToolTip.setToolTipText("<html>Igra<br> Korisnici se bore po potezima. Koristeci izabrane napade <br>Prikazane su sve potrebne informacije za vodjenje igre.<br> Korisnici mogu koristiti chat za komunikaciju.<br> Po zavrsetku igre korisnici dobijaju obavestenje o rezultatu igre i<br> opciju da se vrate na stranicu za biranje protivnika</html>");
+		add(lblToolTip);
+		add(lblToolTip);
 
 	}
 	public void sendChat() {

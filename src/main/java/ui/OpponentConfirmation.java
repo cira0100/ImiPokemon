@@ -19,6 +19,7 @@ public class OpponentConfirmation extends JPanel {
 	public JButton btnAccept;
 	public JButton btnRefuse;
 	public long opponentId;
+	private JLabel lblToolTip;
 	
 	public OpponentConfirmation() {
 		setLayout(null);
@@ -64,6 +65,12 @@ public class OpponentConfirmation extends JPanel {
 		});
 		btnRefuse.setBounds(214, 194, 89, 23);
 		add(btnRefuse);
+		
+		lblToolTip = new JLabel("(?)");
+		lblToolTip.setBounds(249, 41, 24, 14);
+		lblToolTip.setToolTipText("<html>Ukoliko korisnik salje zahtev drugom korisniku za igru on ceka na odgovor korisnika<br> Ukoliko korisnik prima zahtev za igru od drugog korisnika <br> on odgovara na taj zahtev prihvacanjem igre ili odbijanjem </html>");
+		add(lblToolTip);
+		add(lblToolTip);
 
 	}
 	public long getOpponentId() {

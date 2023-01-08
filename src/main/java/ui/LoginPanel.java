@@ -72,6 +72,11 @@ public class LoginPanel extends JPanel {
 		});
 		btnLogIn.setBounds(174, 181, 81, 23);
 		add(btnLogIn);
+		
+		JLabel lblToolTip = new JLabel("(?)");
+		lblToolTip.setBounds(338, 106, 25, 14);
+		lblToolTip.setToolTipText("<html>Prijavljivanje korisnika. <br> Polja ne smeju biti prazna i unos mora biti alfanumericki. <br>Ukoliko korisnik nema izabranog pokemona nije mu dozvoljeno da se prijavi </html>");
+		add(lblToolTip);
 
 	}
 	
@@ -103,5 +108,4 @@ public class LoginPanel extends JPanel {
 			e.printStackTrace();
 		}
 	}
-
 }
