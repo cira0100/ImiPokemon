@@ -256,7 +256,7 @@ public class GamePanel extends JPanel {
 				btnSpecial.setEnabled(false);
 				btnHeal.setEnabled(false);
 				btnShield.setEnabled(false);
-				int optionres=JOptionPane.showConfirmDialog(null, "YOU WIN \\n\\n Do you want to return to choose opponent page", "Result:"+you, JOptionPane.YES_NO_OPTION);
+				int optionres=JOptionPane.showConfirmDialog(null, "YOU WIN!!! Do you want to return to choose opponent page", "Result:"+you, JOptionPane.YES_NO_OPTION);
 				if(optionres==JOptionPane.OK_OPTION) {
 					topFrame.getContentPane().removeAll();
 					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
@@ -271,7 +271,7 @@ public class GamePanel extends JPanel {
 				btnSpecial.setEnabled(false);
 				btnHeal.setEnabled(false);
 				btnShield.setEnabled(false);
-				int optionres=JOptionPane.showConfirmDialog(null, "YOU LOSE \n\n Do you want to return to choose opponent page", "Result"+you, JOptionPane.YES_NO_OPTION);
+				int optionres=JOptionPane.showConfirmDialog(null, "YOU LOSE!!! Do you want to return to choose opponent page", "Result"+you, JOptionPane.YES_NO_OPTION);
 				if(optionres==JOptionPane.OK_OPTION) {
 					topFrame.getContentPane().removeAll();
 					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
@@ -322,7 +322,7 @@ public class GamePanel extends JPanel {
 				btnSpecial.setEnabled(false);
 				btnHeal.setEnabled(false);
 				btnShield.setEnabled(false);
-				int optionres=JOptionPane.showConfirmDialog(null, "YOU LOSE \n\n Do you want to return to choose opponent page", "Result"+you, JOptionPane.YES_NO_OPTION);
+				int optionres=JOptionPane.showConfirmDialog(null, "YOU LOSE!!! Do you want to return to choose opponent page", "Result"+you, JOptionPane.YES_NO_OPTION);
 				if(optionres==JOptionPane.OK_OPTION) {
 					topFrame.getContentPane().removeAll();
 					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
@@ -337,7 +337,7 @@ public class GamePanel extends JPanel {
 				btnSpecial.setEnabled(false);
 				btnHeal.setEnabled(false);
 				btnShield.setEnabled(false);
-				int optionres=JOptionPane.showConfirmDialog(null, "YOU WIN \\n\\n Do you want to return to choose opponent page", "Result:"+you, JOptionPane.YES_NO_OPTION);
+				int optionres=JOptionPane.showConfirmDialog(null, "YOU WIN!!! Do you want to return to choose opponent page", "Result:"+you, JOptionPane.YES_NO_OPTION);
 				if(optionres==JOptionPane.OK_OPTION) {
 					topFrame.getContentPane().removeAll();
 					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
