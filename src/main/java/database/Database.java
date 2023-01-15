@@ -13,6 +13,7 @@ import java.util.List;
 
 import models.Ability;
 import models.AbilityType;
+import models.CONSTS;
 import models.GameStatus;
 import models.History;
 import models.Monster;
@@ -25,7 +26,7 @@ public class Database {
 	static Database instance=null;
 	
 	private Database() {
-		String connString="jdbc:mysql://localhost:3306/pokemon?user=root&password=";
+		String connString=CONSTS.connStringDb;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn=DriverManager.getConnection(connString);
