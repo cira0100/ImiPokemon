@@ -168,17 +168,14 @@ public class GamePanel extends JPanel {
 		txtAreaChat = new JTextArea();
 		txtAreaChat.setEditable(false);
 		txtAreaChat.setLineWrap(true);
-		txtAreaChat.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Est ultricies integer quis auctor elit sed. Urna nunc id cursus metus aliquam eleifend mi. Amet consectetur adipiscing elit pellentesque habitant morbi tristique senectus. Consequat interdum varius sit amet mattis vulputate enim nulla aliquet. Tristique magna sit amet purus gravida quis blandit. Eget gravida cum sociis natoque penatibus. Nec tincidunt praesent semper feugiat nibh. Maecenas sed enim ut sem. Pulvinar neque laoreet suspendisse interdum consectetur. Diam maecenas ultricies mi eget mauris pharetra. Sollicitudin aliquam ultrices sagittis orci. Nulla facilisi etiam dignissim diam quis.");
+		txtAreaChat.setText("");
 		scrollPane.setViewportView(txtAreaChat);
 		
 		btnBack = new JButton("Return to choose opponent");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnBack.setVisible(false);
-				MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, GamePanel.this);
-				topFrame.getContentPane().removeAll();
-				topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
-				SwingUtilities.updateComponentTreeUI(topFrame);
+				returnBack();
 				
 			}
 		});
@@ -188,7 +185,7 @@ public class GamePanel extends JPanel {
 		
 		lblToolTip = new JLabel("(?)");
 		lblToolTip.setBounds(180, 105, 23, 14);
-		lblToolTip.setToolTipText("<html>Igra<br> Korisnici se bore po potezima. Koristeci izabrane napade <br>Prikazane su sve potrebne informacije za vodjenje igre.<br> Korisnici mogu koristiti chat za komunikaciju.<br> Po zavrsetku igre korisnici dobijaju obavestenje o rezultatu igre i<br> opciju da se vrate na stranicu za biranje protivnika</html>");
+		lblToolTip.setToolTipText("<html>Igra<br> Korisnici se bore po potezima. Koristeci izabrane napade <br>Prikazane su sve potrebne informacije za vodjenje igre.<br> Korisnici mogu koristiti chat za komunikaciju.<br> Po zavrsetku igre korisnici dobijaju obavestenje o rezultatu igre i<br> opciju da se vrate na stranicu za biranje protivnika<br>U chatu su validni svi karakeri osim :</html>");
 		add(lblToolTip);
 		add(lblToolTip);
 
@@ -265,9 +262,7 @@ public class GamePanel extends JPanel {
 				btnShield.setEnabled(false);
 				int optionres=JOptionPane.showConfirmDialog(null, "YOU WIN!!! Do you want to return to choose opponent page", "Result:"+you, JOptionPane.YES_NO_OPTION);
 				if(optionres==JOptionPane.OK_OPTION) {
-					topFrame.getContentPane().removeAll();
-					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
-					SwingUtilities.updateComponentTreeUI(topFrame);
+					returnBack();
 					
 				}
 				else
@@ -280,9 +275,7 @@ public class GamePanel extends JPanel {
 				btnShield.setEnabled(false);
 				int optionres=JOptionPane.showConfirmDialog(null, "YOU LOSE!!! Do you want to return to choose opponent page", "Result"+you, JOptionPane.YES_NO_OPTION);
 				if(optionres==JOptionPane.OK_OPTION) {
-					topFrame.getContentPane().removeAll();
-					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
-					SwingUtilities.updateComponentTreeUI(topFrame);
+					returnBack();
 					
 				}
 				else
@@ -331,9 +324,7 @@ public class GamePanel extends JPanel {
 				btnShield.setEnabled(false);
 				int optionres=JOptionPane.showConfirmDialog(null, "YOU LOSE!!! Do you want to return to choose opponent page", "Result"+you, JOptionPane.YES_NO_OPTION);
 				if(optionres==JOptionPane.OK_OPTION) {
-					topFrame.getContentPane().removeAll();
-					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
-					SwingUtilities.updateComponentTreeUI(topFrame);
+					returnBack();
 					
 				}
 				else
@@ -346,9 +337,7 @@ public class GamePanel extends JPanel {
 				btnShield.setEnabled(false);
 				int optionres=JOptionPane.showConfirmDialog(null, "YOU WIN!!! Do you want to return to choose opponent page", "Result:"+you, JOptionPane.YES_NO_OPTION);
 				if(optionres==JOptionPane.OK_OPTION) {
-					topFrame.getContentPane().removeAll();
-					topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
-					SwingUtilities.updateComponentTreeUI(topFrame);
+					returnBack();
 					
 				}
 				else
@@ -418,6 +407,15 @@ public class GamePanel extends JPanel {
 		image = ImageIO.read(bis);
 		bis.close();
 		return image;
+		
+	}
+	public void returnBack() {
+		MainFrame topFrame=(MainFrame) SwingUtilities.getAncestorOfClass(MainFrame.class, GamePanel.this);
+		topFrame.getContentPane().removeAll();
+		topFrame.getContentPane().add(topFrame.chooseOpponentPanel,BorderLayout.CENTER);
+		topFrame.gamePanel.txtAreaChat.setText(null);//clear chat between games
+		topFrame.gamePanel.chat="";
+		SwingUtilities.updateComponentTreeUI(topFrame);
 		
 	}
 

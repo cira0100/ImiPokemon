@@ -139,6 +139,8 @@ public class MainFrame extends JFrame implements Runnable {
 					System.out.println("OPPONENTLEFT");
 					this.getContentPane().removeAll();
 					this.getContentPane().add(this.chooseOpponentPanel,BorderLayout.CENTER);
+					this.gamePanel.txtAreaChat.setText(null);//clear chat between games
+					this.gamePanel.chat="";
 					SwingUtilities.updateComponentTreeUI(this);
 				}else {
 					//XML OBJECTS
@@ -163,10 +165,7 @@ public class MainFrame extends JFrame implements Runnable {
 							this.getContentPane().add(this.gamePanel,BorderLayout.CENTER);
 							SwingUtilities.updateComponentTreeUI(this);
 							this.game=game;
-							this.gamePanel.loadElements();
-							this.gamePanel.txtAreaChat.setText(null);//clear chat between games
-							this.gamePanel.chat="";
-							
+							this.gamePanel.loadElements();							
 						}
 					
 				} catch (Exception e) {
