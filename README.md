@@ -7,6 +7,12 @@
 3. Pokrenuti web server.
 4. Pokretanje klijenata.
 
+
+## Korisnicki nalozi
+(user:password) <br>
+cirakg:cirakg(admin) <br>
+cirakg1:cirakg(user) <br>
+cirakg5:cirakg5(user) <br>
 ## Slike
 
 <p align="center">
