@@ -1,6 +1,7 @@
 package ui;
 
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -22,7 +23,7 @@ import java.awt.event.ActionEvent;
 
 public class LoginPanel extends JPanel {
 	public JTextField textFieldUsername;
-	public JTextField textFieldPassword;
+	public JPasswordField textFieldPassword;
 	public JButton btnLogIn;
 	JTextArea warningTextArea;
 
@@ -45,7 +46,7 @@ public class LoginPanel extends JPanel {
 		lblPassword.setBounds(132, 109, 59, 14);
 		add(lblPassword);
 		
-		textFieldPassword = new JTextField();
+		textFieldPassword = new JPasswordField();
 		textFieldPassword.setColumns(10);
 		textFieldPassword.setBounds(205, 106, 100, 20);
 		add(textFieldPassword);
@@ -83,7 +84,7 @@ public class LoginPanel extends JPanel {
 	public void Login() {
 		System.out.println("SEND LOGIN");
 		String username=textFieldUsername.getText();
-		String password=textFieldPassword.getText();
+		String password=new String(textFieldPassword.getPassword());
 		if(!(username.trim().length()>0 && password.trim().length()>0))
 		{
 			warningTextArea.setText("Morate uneti login informacije");

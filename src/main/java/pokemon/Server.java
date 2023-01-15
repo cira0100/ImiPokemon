@@ -146,24 +146,12 @@ public class Server implements Runnable {
 			}
 			
 		} catch (Exception e) {
-			Long closedId=players.get(sc);
-			leftGame(sc);
-			players.remove(sc);
-			System.out.println("Client dissconnected: "+closedId );
-			System.out.println("Remaining clients: "+players.size() );
-			sc.close();
-			sendAvailablePlayers();
+			closeConnection(sc);
 			return;
 		}
 		if(read==-1)
 		{
-			Long closedId=players.get(sc);
-			leftGame(sc);
-			players.remove(sc);
-			System.out.println("Client dissconnected: "+closedId );
-			System.out.println("Remaining clients: "+players.size() );
-			sc.close();
-			sendAvailablePlayers();
+			closeConnection(sc);
 			return;
 		}
 		System.out.println(sb.toString());
@@ -407,6 +395,21 @@ public class Server implements Runnable {
 			
 			
 		}
+		
+	}
+	public void closeConnection(SocketChannel sc) {
+		Long closedId=players.get(sc);
+		try {
+			leftGame(sc);
+			players.remove(sc);
+			System.out.println("Client dissconnected: "+closedId );
+			System.out.println("Remaining clients: "+players.size() );
+			sc.close();
+			sendAvailablePlayers();
+		} catch (Exception e) {
+		}
+		
+		return;
 		
 	}
 

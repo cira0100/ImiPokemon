@@ -1,1 +1,3 @@
 # ImiPokemon
+
+## Instalacija i pokretanje

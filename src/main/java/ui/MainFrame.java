@@ -115,7 +115,7 @@ public class MainFrame extends JFrame implements Runnable {
 					System.out.println("Bad Login");
 					this.loginPanel.warningTextArea.setText("Pogresan Login");
 				}else if(response[0].trim().equals("BADLOGINADMIN")){
-					System.out.println("Bad Login");
+					System.out.println("Bad Login Admin");
 					this.loginPanel.warningTextArea.setText("Admin nema pristup aplikaciji");
 				}else if(response[0].trim().equals("GAMEREQUEST")){
 					System.out.println("Game Request");
